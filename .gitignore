@@ -2,6 +2,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
+include/
+tcl/
+Scripts/
+pip-selfcheck.json
+requirements.txt
+notes.txt
 
 # C extensions
 *.so
