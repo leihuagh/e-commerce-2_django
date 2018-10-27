@@ -6,6 +6,8 @@ include/
 tcl/
 Scripts/
 pip-selfcheck.json
+.vscode/
+.idea/
 requirements.txt
 notes.txt
 
