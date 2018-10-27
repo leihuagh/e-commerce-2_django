@@ -17,11 +17,17 @@ def about_page(request):
   return render(request, 'home_page.html', context)
 
 def contact_page(request):
+  if request.method == "POST":
+    print(request.POST)
+    print(request.POST.get('fullname'))
+    print(request.POST.get('email'))
+    print(request.POST.get('content'))
+    print(request.POST['fullname'])
   context = {
     'title': 'Contact page',
     'content': 'Welcome to contact page'
   }
-  return render(request, 'home_page.html', context)
+  return render(request, 'contact/view.html', context)
 
 
 

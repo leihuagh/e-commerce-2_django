@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+  <title>Hello, world!</title>
+</head>
+
+<body>
+  <div class="text-center">
+    <h1>{{ title }}</h1>
+    <h1>Hello, world!</h1>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <p>
+            {{ content }}
+            <div class="col-sm-6 col-12">
+              <form action="" method="POST">
+                {% csrf_token %}
+                <input type="text" name="fullname" class="form-control" placeholder="Name">
+                <input type="email" name="email" class="form-control" placeholder="Email">
+                <textarea name="content" class="form-control" placeholder="Content"></textarea>
+                <button type="submit" class="btn btn-default">Send</button>
+              </form>
+            </div>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
