@@ -25,23 +25,14 @@ def about_page(request):
 def contact_page(request):
   contact_form = ContactForm(request.POST or None)
 
-  if contact_form.is_valid():
-    print(contact_form.cleaned_data)
-    print(contact_form.cleaned_data.get('fullname'))
-    print(contact_form.cleaned_data['fullname'])
-
   if request.method == "POST":
-    print(request.POST)
-    print(request.POST.get('fullname'))
-    print(request.POST.get('email'))
-    print(request.POST.get('content'))
-    print(request.POST['fullname'])
-  context = {
-    "title": "Contact page",
-    "content": "Welcome to contact page",
-    "form": contact_form
-  }
-  return render(request, "contact/view.html", context)
+    if contact_form.is_valid():
+    context = {
+      "title": "Contact page",
+      "content": "Welcome to contact page",
+      "form": contact_form
+    }
+    return render(request, "contact/view.html", context)
 
 
 User = get_user_model()
@@ -51,12 +42,10 @@ def register_page(request):
     "form": form
   }
   if form.is_valid():
-    print(form.cleaned_data)
     username = form.cleaned_data.get("username")
     email = form.cleaned_data.get("email")
     password = form.cleaned_data.get("password")
     new_user = User.objects.create_user(username, email, password)
-    print(new_user)
   return render(request, "auth/register.html", context)
 
 def login_page(request):
@@ -70,37 +59,7 @@ def login_page(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
       login(request, user)
-      print(request.user.is_authenticated())
       return redirect("/")
     else:
       print("Error while login")
   return render(request, "auth/login.html", context)
-
-def home_page_old(request):
-  html_ = """
-    <!doctype html>
-      <html lang="en">
-        <head>
-          <!-- Required meta tags -->
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-          <!-- Bootstrap CSS -->
-          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-          <title>Hello, world!</title>
-        </head>
-        <body>
-          <div class="text-center">
-            <h1>Hello, world!</h1>
-          </div>
-
-          <!-- Optional JavaScript -->
-          <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-          <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        </body>
-      </html>
-  """
-  return HttpResponse(html_)
