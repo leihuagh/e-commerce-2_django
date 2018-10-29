@@ -8,6 +8,8 @@ Scripts/
 pip-selfcheck.json
 .vscode/
 .idea/
+static_cdn/
+img/
 requirements.txt
 notes.txt
 
