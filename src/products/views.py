@@ -46,11 +46,17 @@ def product_detail_view(request, pk, *args, **kwargs):
   # except:
   #   print('Unknown error')
   
-  qs = Product.objects.filter(id=pk)
-  if qs.exists() and qs.count() == 1:
-    instance = qs.first()
-  else:
+  instance = Product.objects.get_by_id(pk)
+  if instance is None:
     raise Http404("Product does't exist")
+
+
+
+  # qs = Product.objects.filter(id=pk)
+  # if qs.exists() and qs.count() == 1:
+  #   instance = qs.first()
+  # else:
+  #   raise Http404("Product does't exist")
 
   context = {
     'object': instance,
