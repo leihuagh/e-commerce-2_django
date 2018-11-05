@@ -1,6 +1,6 @@
 
 {% for obj in object_list %}
-  {{ obj.id }} - {{ obj.title }}
+  {{ obj.id }} - <a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>
   <br>
   {{ obj.description }}
   <hr>
