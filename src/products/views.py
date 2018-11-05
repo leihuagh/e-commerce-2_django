@@ -42,6 +42,27 @@ def product_list_view(request):
   return render(request, 'products/list.html', context)
 
 
+class ProductDetailSlugView(DetailView):
+  queryset = Product.objects.all()
+  template_name = "products/detail.html"
+
+  def get_object(self, *args, **kwargs):
+    request = self.request
+    slug = self.kwargs.get('slug')
+    # instance = get_object_or_404(Product, slug=slug, active=True)
+    try:
+      instance = Product.objects.get(slug=slug)
+    except Product.DoesNotExist:
+      raise Http404("Product does't exist")
+    except Product.MultipleObjectsReturned:
+      qs = Product.objects.filter(slug=slug, active=True)
+      instance = qs.first()
+    except:
+      raise Http404('Unknown error') 
+    return instance
+
+
+
 class ProductDetailView(DetailView):
   # queryset = Product.objects.all()
   template_name = "products/detail.html"
@@ -93,3 +114,4 @@ def product_detail_view(request, pk, *args, **kwargs):
     'abc': "some other content from function based view"
   }
   return render(request, 'products/detail.html', context)
+
