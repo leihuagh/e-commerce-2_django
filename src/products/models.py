@@ -19,8 +19,16 @@ def upload_image_path(instance, filename):
   return 'products/{new_filename}/{final_filename}'.format(new_filename=new_filename, final_filename=final_filename)
 
 
+class ProductQuerySet(models.query.QuerySet):
+  def featured(self): # Product.objects.all()featured()
+    return self.filter(featured=True)
+
+
 class ProductManager(models.Manager):
-  def featured(self):
+  def get_queryset(self):
+    return ProductQuerySet(self.model, using=self._db)
+  
+  def featured(self): # Product.objects.featured()
     return self.get_queryset().filter(featured=True)
 
   def get_by_id(self, id):
