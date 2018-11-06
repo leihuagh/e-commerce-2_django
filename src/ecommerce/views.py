@@ -28,16 +28,12 @@ def contact_page(request):
   context = {
     "title": "Contact page",
     "content": "Welcome to contact page",
-    "form": contact_form
+    "form": contact_form,
+    'brand': 'new brand name'
   }
   if request.method == "POST":
     if contact_form.is_valid():
-      context = {
-        "title": "Contact page",
-        "content": "Welcome to contact page",
-        "form": contact_form
-      }
-      return render(request, "contact/view.html", context)
+      print(contact_form.cleaned_data)
   return render(request, "contact/view.html", context)
 
 
