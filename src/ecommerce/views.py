@@ -25,6 +25,11 @@ def about_page(request):
 def contact_page(request):
   contact_form = ContactForm(request.POST or None)
 
+  context = {
+    "title": "Contact page",
+    "content": "Welcome to contact page",
+    "form": contact_form
+  }
   if request.method == "POST":
     if contact_form.is_valid():
       context = {
@@ -33,6 +38,7 @@ def contact_page(request):
         "form": contact_form
       }
       return render(request, "contact/view.html", context)
+  return render(request, "contact/view.html", context)
 
 
 User = get_user_model()
