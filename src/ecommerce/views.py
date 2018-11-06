@@ -28,8 +28,7 @@ def contact_page(request):
   context = {
     "title": "Contact page",
     "content": "Welcome to contact page",
-    "form": contact_form,
-    'brand': 'new brand name'
+    "form": contact_form
   }
   if request.method == "POST":
     if contact_form.is_valid():

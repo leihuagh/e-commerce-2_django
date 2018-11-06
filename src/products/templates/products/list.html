@@ -3,11 +3,16 @@
 
 {% block content %}
 
-  {% for obj in object_list %}
-    {{ obj.id }} - <a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>
-    <br>
-    {{ obj.description }}
-    <hr>
-  {% endfor %}
+  <div class="container">
+    <div class="row">
+
+      {% for obj in object_list %}
+        <div class="col">
+          {% include 'products/snippets/card.html' with instance=obj %}
+        </div>
+      {% endfor %}
+      
+    </div>
+  </div>
 
 {% endblock %}
