@@ -1,31 +1,35 @@
 {% extends 'base.html' %} 
 
-{% load static %} 
+
+{% block base_head %}
+  <link rel="stylesheet" href="{% static 'css/style.css'%}">
+{% endblock %}
+
 
 {% block content %}
 
-<div class="text-center">
-  <h1>{{ title }}</h1>
-  <h1>Hello, world!</h1>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <img src="{% static 'img/beach.jpg'%}" class="img-fluid" alt="beach pic">
-      <p>
-        {{ content }}
-      </p>
-    </div>
+  <div class="text-center">
+    <h1>{{ title }}</h1>
+    <h1>Hello, world!</h1>
   </div>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <img src="{% static 'img/beach.jpg'%}" class="img-fluid" alt="beach pic">
+        <p>
+          {{ content }}
+        </p>
+      </div>
+    </div>
 
-  {% if request.user.is_authenticated %}
-  <div class="row">
-    <div class="col">
-      <h1>Logged in User</h1>
-      {{logged_content}}
+    {% if request.user.is_authenticated %}
+    <div class="row">
+      <div class="col">
+        <h1>Logged in User</h1>
+        {{logged_content}}
+      </div>
     </div>
+    {% endif %}
   </div>
-  {% endif %}
-</div>
 
 {% endblock %}
