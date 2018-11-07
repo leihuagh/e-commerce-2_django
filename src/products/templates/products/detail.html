@@ -3,16 +3,23 @@
 
 {% block content %}
 
-  {{object.title}}
-  <br>
-  {{object.price}}
-  <br>
-  {{object.description}}
-  <br>
-  {% if object.image %}
-  <img src="{{object.image.url}}" alt="{{object.title}}" class="img-fluid">
-  {% endif %}
-  <hr>
-  {{abc}}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>{{ object.title }}</h1>
+        <p class="lead">Published: {{ object.timestamp | timesince}} ago.</p>
+        <br>
+        <p class="lead">{{ object.price }} &#36;</p>
+        {% if object.image %}
+          <img src="{{object.image.url}}" alt="{{object.title}}" class="img-fluid">
+        {% endif %}
+        <hr>
+        <br>
+        {{ object.description | linebreaks }}
+        <br>
+        {{ abc }}
+      </div>
+    </div>
+  </div>
 
 {% endblock %}
