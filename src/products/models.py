@@ -1,7 +1,7 @@
 import random
 import os
 from django.db import models
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models.signals import pre_save, post_save
 from .utils import unique_slug_generator
 

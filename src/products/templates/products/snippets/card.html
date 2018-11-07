@@ -10,5 +10,6 @@
     <h5 class="card-title">{{ instance.title }}</h5>
     <p class="card-text">{{ instance.description }}</p>
     <a href="{{ instance.get_absolute_url }}" class="btn btn-primary">View {{ instance.title }}</a>
+    <!-- <a href="{% url 'products:detail' slug=instance.slug %}" class="btn btn-warning">URL {{ instance.title }}</a> -->
   </div>
 </div>
