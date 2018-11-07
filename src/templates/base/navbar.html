@@ -4,6 +4,7 @@
 {% url 'products:list' as products_list_url %}
 {% url 'register' as register_url %}
 {% url 'login' as login_url %}
+{% url 'logout' as logout_url %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="{{ home_url }}">{% if brand_name %} {{brand_name}} {% else %} E-Commerce {% endif %}</a>
@@ -25,12 +26,18 @@
       <li class="nav-item {% if request.path == products_list_url %} active {% endif %}">
         <a class="nav-link" href="{{ products_list_url }}">Products</a>
       </li>
-      <li class="nav-item {% if request.path == register_url %} active {% endif %}">
-        <a class="nav-link" href="{{ register_url }}">Register</a>
-      </li>
-      <li class="nav-item {% if request.path == login_url %} active {% endif %}">
-        <a class="nav-link" href="{{ login_url }}">Login</a>
-      </li>
+      {% if request.user.is_authenticated %}
+        <li class="nav-item {% if request.path == logout_url %} active {% endif %}">
+          <a class="nav-link" href="{{ logout_url }}">Logout</a>
+        </li>
+      {% else %}
+        <li class="nav-item {% if request.path == register_url %} active {% endif %}">
+          <a class="nav-link" href="{{ register_url }}">Register</a>
+        </li>
+        <li class="nav-item {% if request.path == login_url %} active {% endif %}">
+          <a class="nav-link" href="{{ login_url }}">Login</a>
+        </li>
+      {% endif %}
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
