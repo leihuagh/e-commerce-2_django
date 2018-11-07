@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from .views import home_page, about_page, contact_page, register_page, login_page
+from .views import home_page, about_page, contact_page, register_page, login_page, logout_page
 
 
 urlpatterns = [
@@ -30,6 +30,7 @@ urlpatterns = [
   url(r'^contact/$', contact_page, name='contact'),
   url(r'^register/$', register_page, name='register'),
   url(r'^login/$', login_page, name='login'),
+  url(r'^logout/$', logout_page, name='logout'),
   url(r'^products/', include('products.urls', namespace='products')),
   url(r'^admin/', admin.site.urls),
 ]
