@@ -12,6 +12,7 @@ static_cdn/
 img/
 requirements.txt
 notes.txt
+shell_commands.txt
 
 # C extensions
 *.so
