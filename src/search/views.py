@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView
+from django.db.models import Q
 
 from products.models import Product
 
@@ -19,6 +20,7 @@ class SearchProductView(ListView):
     query = request.GET.get('q', None)
     print(query)
     if query is not None:
-      return Product.objects.filter(title__icontains=query)
+      lookups = Q(title__icontains=query) | Q(description__icontains=query)
+      return Product.objects.filter(lookups).distinct()
     # return Product.objects.none()
     return Product.objects.featured()
