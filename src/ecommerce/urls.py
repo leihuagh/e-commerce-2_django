@@ -33,6 +33,7 @@ urlpatterns = [
   url(r'^logout/$', logout_page, name='logout'),
   url(r'^products/', include('products.urls', namespace='products')),
   url(r'^search/', include('search.urls', namespace='search')),
+  url(r'^cart/', include('carts.urls', namespace='carts')),
   url(r'^admin/', admin.site.urls),
 ]
 
