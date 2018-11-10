@@ -4,10 +4,10 @@ from .models import Cart
 
 # Create your views here.
 
-def cart_create(user=None):
-  cart_obj = Cart.objects.create(user=None)
-  print('Create new cart')
-  return cart_obj
+# def cart_create(user=None):
+#   cart_obj = Cart.objects.create(user=None)
+#   print('Create new cart')
+#   return cart_obj
 
 
 
@@ -17,7 +17,7 @@ def cart_home(request):
   #   request.session['cart_id'] = cart_obj.id
   # else:
 
-  
+
   # cart_id = request.session.get('cart_id', None)
   # qs = Cart.objects.filter(id=cart_id)
   # if qs.count() == 1:
