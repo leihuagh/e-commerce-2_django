@@ -37,7 +37,10 @@ def cart_home(request):
   #   total += x.price
   # cart_obj.total = total
   # cart_obj.save()
-  return render(request, 'carts/home.html', {})
+  context = {
+    'cart' : cart_obj
+  }
+  return render(request, 'carts/home.html', context)
 
 
 def cart_update(request):
