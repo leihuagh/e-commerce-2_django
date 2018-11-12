@@ -21,12 +21,6 @@
       <td>
         <a href="{{ product.get_absolute_url }}">{{ product.title }}</a> 
         <small>
-          <!-- <a href="#">Remove</a> -->
-          <!-- <form method="POST" action="{% url "cart:update" %}" class="form">
-            {% csrf_token %}
-            <input type="hidden" name="product_id" value="{{ product.id }}">
-            <button type="submit" class="btn btn-link">Remove</button>
-          </form> -->
           {% include 'products/snippets/update-cart.html' with product=product cart=cart in_cart=True %}
         </small>
       </td>
