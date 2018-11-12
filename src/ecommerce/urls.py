@@ -34,6 +34,7 @@ urlpatterns = [
   url(r'^products/', include('products.urls', namespace='products')),
   url(r'^search/', include('search.urls', namespace='search')),
   url(r'^cart/', include('carts.urls', namespace='cart')),
+  url(r'^orders/', include('orders.urls', namespace='orders')),
   url(r'^admin/', admin.site.urls),
 ]
 
