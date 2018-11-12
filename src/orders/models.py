@@ -1,5 +1,7 @@
 from django.db import models
+from django.db.models.signals import pre_save
 
+from ecommerce.utils import unique_order_id_generator
 from carts.models import Cart
 
 # Create your models here.
@@ -23,4 +25,12 @@ class Order(models.Model):
   def __str__(self):
     return self.order_id
   
-  
+
+
+def pre_save_create_order_id(sender, instance, *args, **kwargs):
+  if not instance.order_id:
+    instance.order_id = unique_order_id_generator(instance)
+
+
+
+pre_save.connect(pre_save_create_order_id, sender=Order)

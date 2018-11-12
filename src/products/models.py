@@ -4,7 +4,7 @@ from django.db import models
 from django.urls import reverse
 from django.db.models import Q
 from django.db.models.signals import pre_save, post_save
-from .utils import unique_slug_generator
+from ecommerce.utils import unique_slug_generator
 
 # Create your models here.
 
