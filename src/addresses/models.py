@@ -19,6 +19,8 @@ class Address(models.Model):
   country = models.CharField(max_length=120, default='Egypt')
   state = models.CharField(max_length=120)
   postal_code = models.CharField(max_length=120)
+  timestamp = models.DateTimeField(auto_now_add=True)
+  updated = models.DateTimeField(auto_now=True)
 
   def __str__(self):
     return str(self.billing_profile)

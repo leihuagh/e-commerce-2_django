@@ -14,15 +14,25 @@
         {% include 'accounts/snippets/form.html' with form=guest_form next_url=request.build_absolute_uri action_url=guest_register_url %}
       </div>
     </div>
-  {% else %}
-    {% if not object.shipping_address and not object.billing_address %}
-      
     {% else %}
-      <h1>Checkout</h1>
-      
-      <p>Cart Total: {{ object.cart.total }}</p>
-      <p>Shipping Total: {{ object.shipping_total }}</p>
-      <p>Order Total: {{ object.total }}</p>
-    {% endif %}
+    
+      {% if not object.shipping_address and not object.billing_address %}
+        <div class="row">
+          <div class="col-10 col-md-6 mx-auto">
+            <p class="lead">Shipping Address</p>
+            <hr>
+            {% url 'accounts:guest_register' as guest_register_url %}
+            {% include 'addresses/snippets/form.html' with form=address_form next_url=request.build_absolute_uri action_url=guest_register_url address_type='shipping' %}
+          </div>
+        </div>
+
+
+      {% else %}
+        <h1>Checkout</h1>
+        
+        <p>Cart Total: {{ object.cart.total }}</p>
+        <p>Shipping Total: {{ object.shipping_total }}</p>
+        <p>Order Total: {{ object.total }}</p>
+      {% endif %}
   {% endif %}
 {% endblock %}
