@@ -10,38 +10,8 @@ from accounts.forms import LoginForm, GuestForm
 
 # Create your views here.
 
-# def cart_create(user=None):
-#   cart_obj = Cart.objects.create(user=None)
-#   print('Create new cart')
-#   return cart_obj
-
-
-
 def cart_home(request):
-  # if cart_id is None:
-  #   cart_obj = cart_create()
-  #   request.session['cart_id'] = cart_obj.id
-  # else:
-
-
-  # cart_id = request.session.get('cart_id', None)
-  # qs = Cart.objects.filter(id=cart_id)
-  # if qs.count() == 1:
-  #   cart_obj = qs.first()
-  #   if request.user.is_authenticated() and cart_obj.user is None:
-  #     cart_obj.user = request.user
-  #     cart_obj.save()
-  # else:
-  #   cart_obj = Cart.objects.new(user=request.user)
-  #   request.session['cart_id'] = cart_obj.id
-
   cart_obj, new_obj = Cart.objects.new_or_get(request)
-  # products = cart_obj.products.all()
-  # total = 0
-  # for x in products:
-  #   total += x.price
-  # cart_obj.total = total
-  # cart_obj.save()
   context = {
     'cart' : cart_obj
   }
@@ -57,9 +27,9 @@ def cart_update(request):
       return redirect('cart:home')  
     cart_obj, new_obj = Cart.objects.new_or_get(request)
     if product_obj in cart_obj.products.all():
-      cart_obj.products.remove(product_obj) # cart_obj.products.remove(product_id)
+      cart_obj.products.remove(product_obj)
     else:
-      cart_obj.products.add(product_obj) # cart_obj.products.add(product_id)
+      cart_obj.products.add(product_obj)
     request.session['cart_items'] = cart_obj.products.count()
   # return  redirect(product_obj.get_absolute_url())
   return redirect('cart:home')
@@ -84,19 +54,7 @@ def checkout_home(request):
     pass
   
   if billing_profile is not None:
-    order_qs = Order.objects.filter(billing_profile=billing_profile, cart=cart_obj, active=True)
-    if order_qs.count() == 1:
-      order_obj = order_qs.first()
-    else:
-      # order_qs = Order.objects.filter(cart=cart_obj, active=True)
-      # if order_qs.exists():
-      #   order_qs.update(active=False)
-      # else:
-      #   order_obj = Order.objects.create(cart=cart_obj, billing_profile=billing_profile)
-      old_order_qs = Order.objects.exclude(billing_profile=billing_profile).filter(cart=cart_obj, active=True)
-      if old_order_qs.exists():
-        old_order_qs.update(active=False)
-      order_obj = Order.objects.create(billing_profile=billing_profile, cart=cart_obj)
+    order_obj, order_obj_created = Order.objects.new_or_get(billing_profile, cart_obj)
   context = {
     'object': order_obj,
     'billing_profile': billing_profile,
