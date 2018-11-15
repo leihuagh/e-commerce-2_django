@@ -71,7 +71,7 @@ def checkout_home(request):
       order_obj.mark_paid()
       del request.session['cart_id']
       request.session['cart_items'] = 0
-      return redirect('/cart/success')
+      return redirect('cart:success')
   context = {
     'object': order_obj,
     'billing_profile': billing_profile,
@@ -81,3 +81,7 @@ def checkout_home(request):
     'address_qs': address_qs
   }
   return render(request, 'carts/checkout.html', context)
+
+
+def checkout_done_view(request):
+  return render(request, 'carts/checkout-done.html', {})
