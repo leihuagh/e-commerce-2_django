@@ -50,7 +50,8 @@ def checkout_home(request):
   
   address_qs = None
   if billing_profile is not None:
-    address_qs = Address.objects.filter(billing_profile=billing_profile)
+    if request.user.is_authenticated():
+      address_qs = Address.objects.filter(billing_profile=billing_profile)
     # shipping_address_qs = address_qs.filter(address_type='shipping')
     # billing_address_qs = address_qs.filter(address_type='billing')
 

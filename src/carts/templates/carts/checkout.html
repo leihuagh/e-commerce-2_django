@@ -29,7 +29,8 @@
             {% include 'addresses/snippets/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create_url address_type='shipping' %}
           </div>
           <div class="col-6">
-            {% include 'addresses/snippets/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='shipping' %}
+            {% url 'addresses:reuse' as checkout_address_reuse_url %}
+            {% include 'addresses/snippets/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='shipping' action_url=checkout_address_reuse_url %}
           </div>
         </div>
 
@@ -46,7 +47,8 @@
             {% include 'addresses/snippets/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create_url address_type='billing' %}
           </div>
           <div class="col-6">
-            {% include 'addresses/snippets/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='billing' %}
+            {% url 'addresses:reuse' as checkout_address_reuse_url %}
+            {% include 'addresses/snippets/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='billing' action_url=checkout_address_reuse_url %}
           </div>
         </div>
 
