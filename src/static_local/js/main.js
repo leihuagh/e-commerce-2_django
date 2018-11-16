@@ -17,7 +17,12 @@ $(document).ready(() => {
       method: httpMethod,
       data: formData,
       success: function(data) {
-        console.log(data)
+        const submitSpan = thisForm.find('.submit-span')
+        if (data.added) {
+          submitSpan.html('In cart <button type="submit" class="btn btn-link">Remove</button>')
+        } else {
+          submitSpan.html('<button type="submit" class="btn btn-success">Add to cart</button>')
+        }
       },
       error: function(error) {
         console.log('Error when add to cart => ', error)
