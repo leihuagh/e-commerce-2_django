@@ -21,6 +21,8 @@ def cart_home(request):
 
 
 def cart_update(request):
+  if request.is_ajax():
+    print('Ajax request')
   product_id = request.POST.get('product_id')
   if product_id is not None:
     try:
