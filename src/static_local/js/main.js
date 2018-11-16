@@ -51,18 +51,14 @@ $(document).ready(() => {
       method: refreshCartMethod,
       data: data,
       success: function(data) {
-        console.log(data);
-        console.log(data.subtotal);
-        console.log(data.total);
-
         if (data.products.length > 0) {
           productRows.html(" ");
-          let i = 1
+          let i = data.products.length
           $.each(data.products, (index, product) => {
             cartBody.prepend(`<tr>
                               <th scope="row">${i}</th>
                                 <td>
-                                  <a href="{{ product.get_absolute_url }}">${product.name}</a> 
+                                  <a href="${product.url}">${product.name}</a> 
                                   <br>
                                   <small>
                                     removeeeeeeeeeeeee
@@ -70,7 +66,7 @@ $(document).ready(() => {
                                 </td>
                                 <td>${product.price}</td>
                               </tr>`);
-            i ++;
+            i --;
           })
           cartBody.find('.cart-subtotal').text(data.subtotal)
           cartBody.find('.cart-total').text(data.total)
