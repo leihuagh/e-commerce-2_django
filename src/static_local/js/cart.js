@@ -31,6 +31,11 @@ $(document).ready(() => {
         }
       },
       error: function(error) {
+        $.alert({
+          title: "Oops!",
+          content: "An error occurred",
+          theme: "modern"
+        });
         console.log("Error when add to cart => ", error);
       }
     });
@@ -77,6 +82,11 @@ $(document).ready(() => {
         }
       },
       error: function(error) {
+        $.alert({
+          title: "Oops!",
+          content: "An error occurred",
+          theme: "modern"
+        });
         console.log("Error when refresh cart => ", error);
       }
     });
