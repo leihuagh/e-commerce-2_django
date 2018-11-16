@@ -14,7 +14,7 @@ $(document).ready(() => {
       success: function(data) {
         // thisForm[0].reset();
         contactForm[0].reset();
-        console.log(data)
+        console.log(data);
         $.alert({
           title: "Success!",
           content: data.message,
@@ -22,9 +22,14 @@ $(document).ready(() => {
         });
       },
       error: function(error) {
+        const jsonData = error.responseJSON;
+        let msg = "";
+        $.each(jsonData, (key, value) => {
+          msg += key + ": " + value[0].message +'<br>';
+        });
         $.alert({
           title: "Oops!",
-          content: "An error occurred",
+          content: msg,
           theme: "modern"
         });
         console.log("Error when saving contact form => ", error);
