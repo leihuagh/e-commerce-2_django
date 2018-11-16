@@ -40,9 +40,10 @@ $(document).ready(() => {
   function refreshCart() {
     const cartTable = $(".cart-table");
     const cartBody = cartTable.find(".cart-body");
-    cartBody.html("<h1>changed</h1>");
-
-    const refreshCartUrl = "/api/cart/";
+    // cartBody.html("<h1>changed</h1>");
+    const productRows = cartBody.find(".cart-product");
+    const currentUrl = window.location.href;
+    const refreshCartUrl = "/cart-api/";
     const refreshCartMethod = "GET";
     const data = {};
     $.ajax({
@@ -51,6 +52,32 @@ $(document).ready(() => {
       data: data,
       success: function(data) {
         console.log(data);
+        console.log(data.subtotal);
+        console.log(data.total);
+
+        if (data.products.length > 0) {
+          productRows.html(" ");
+          let i = 1
+          $.each(data.products, (index, product) => {
+            cartBody.prepend(`<tr>
+                              <th scope="row">${i}</th>
+                                <td>
+                                  <a href="{{ product.get_absolute_url }}">${product.name}</a> 
+                                  <br>
+                                  <small>
+                                    removeeeeeeeeeeeee
+                                  </small>
+                                </td>
+                                <td>${product.price}</td>
+                              </tr>`);
+            i ++;
+          })
+          cartBody.find('.cart-subtotal').text(data.subtotal)
+          cartBody.find('.cart-total').text(data.total)
+        } else {
+          window.location.href = currentUrl;
+        }
+
       },
       error: function(error) {
         console.log("Error when refresh cart => ", error);

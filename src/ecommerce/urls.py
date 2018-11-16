@@ -39,6 +39,9 @@ urlpatterns = [
   url(r'^billing/', include('billing.urls', namespace='billing')),
   url(r'^addresses/', include('addresses.urls', namespace='addresses')),
   url(r'^admin/', admin.site.urls),
+  
+  
+  url(r'^cart-api/', include('carts.api.urls', namespace='cart-api')),
 ]
 
 if settings.DEBUG:
