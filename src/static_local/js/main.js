@@ -51,29 +51,33 @@ $(document).ready(() => {
       method: refreshCartMethod,
       data: data,
       success: function(data) {
+        const hiddenCartItemRemoveForm = $(".cart-item-remove-form");
+
         if (data.products.length > 0) {
           productRows.html(" ");
-          let i = data.products.length
+          let i = data.products.length;
           $.each(data.products, (index, product) => {
+            const newCartItemRemove = hiddenCartItemRemoveForm.clone();
+            newCartItemRemove.css("display", "block");
+            newCartItemRemove.find(".cart-item-product-id").val(product.id);
             cartBody.prepend(`<tr>
                               <th scope="row">${i}</th>
                                 <td>
                                   <a href="${product.url}">${product.name}</a> 
                                   <br>
                                   <small>
-                                    removeeeeeeeeeeeee
+                                    ${newCartItemRemove.html()}
                                   </small>
                                 </td>
                                 <td>${product.price}</td>
                               </tr>`);
-            i --;
-          })
-          cartBody.find('.cart-subtotal').text(data.subtotal)
-          cartBody.find('.cart-total').text(data.total)
+            i--;
+          });
+          cartBody.find(".cart-subtotal").text(data.subtotal);
+          cartBody.find(".cart-total").text(data.total);
         } else {
           window.location.href = currentUrl;
         }
-
       },
       error: function(error) {
         console.log("Error when refresh cart => ", error);

@@ -1,0 +1,5 @@
+<form method="POST" action="{% url "cart:update" %}" data-endpoint="{% url "cart:update" %}" class="form form-product-ajax">
+  {% csrf_token %}
+  <input type="hidden" name="product_id" value="{{ product_id }}" class="cart-item-product-id">
+  <button type="submit" class="btn btn-link btn-sm" style="padding: 0px;">Remove</button>
+</form>
