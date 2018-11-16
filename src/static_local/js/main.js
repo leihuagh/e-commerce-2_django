@@ -23,6 +23,8 @@ $(document).ready(() => {
         } else {
           submitSpan.html('<button type="submit" class="btn btn-success">Add to cart</button>')
         }
+        const navbarCartCount = $('.navbar-cart-count')
+        navbarCartCount.text(data.cartItemCount)
       },
       error: function(error) {
         console.log('Error when add to cart => ', error)
