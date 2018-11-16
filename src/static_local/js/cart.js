@@ -35,12 +35,10 @@ $(document).ready(() => {
       }
     });
   });
-  console.log();
 
   function refreshCart() {
     const cartTable = $(".cart-table");
     const cartBody = cartTable.find(".cart-body");
-    // cartBody.html("<h1>changed</h1>");
     const productRows = cartBody.find(".cart-product");
     const currentUrl = window.location.href;
     const refreshCartUrl = "/cart-api/";
@@ -52,7 +50,6 @@ $(document).ready(() => {
       data: data,
       success: function(data) {
         const hiddenCartItemRemoveForm = $(".cart-item-remove-form");
-
         if (data.products.length > 0) {
           productRows.html(" ");
           let i = data.products.length;
