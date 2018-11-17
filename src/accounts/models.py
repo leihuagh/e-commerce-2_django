@@ -17,6 +17,7 @@ class UserManager(BaseUserManager):
 
     user_obj = self.model(
       email=self.normalize_email(email),
+      full_name=full_name
     )
     user_obj.set_password(password)
     user_obj.staff = is_staff
@@ -70,6 +71,8 @@ class User(AbstractBaseUser):
     return self.email
 
   def get_full_name(self):
+    if self.full_name:
+      return self.full_name
     return self.email
 
   def get_short_name(self):
