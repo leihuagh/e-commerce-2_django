@@ -10,6 +10,7 @@ pip-selfcheck.json
 .idea/
 static_cdn/
 img/
+fixtures/
 requirements.txt
 notes.txt
 shell_commands.txt
