@@ -23,7 +23,7 @@ class UserAdmin(BaseUserAdmin):
   form = UserAdminChangeForm
   add_form = UserAdminCreationForm
 
-  list_display = ('email', 'admin', 'staff', 'active')
+  list_display = ('email', 'full_name', 'admin', 'staff', 'active')
   list_filter = ('admin', 'staff', 'active', 'email')
   fieldsets = (
     (None, {'fields': ('email', 'password')}),
@@ -37,7 +37,7 @@ class UserAdmin(BaseUserAdmin):
     ),
   )
   search_fields = ('email', 'full_name', )
-  ordering = ('email',)
+  ordering = ('email', )
   filter_horizontal = ()
 
 
