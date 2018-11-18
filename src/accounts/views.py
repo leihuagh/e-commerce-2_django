@@ -16,19 +16,19 @@ class RegisterView(CreateView):
   template_name = 'accounts/register.html'
   success_url = reverse_lazy('accounts:login')
 
+class LoginView(FormView):
+  form_class = LoginForm
+  template_name = 'accounts/login.html'
+  success_url = reverse_lazy('home')
 
-def login_page(request):
-  form = LoginForm(request.POST or None)
-  context = {
-    "form": form
-  }
-  next_ = request.GET.get('next')
-  next_post = request.POST.get('next')
-  redirect_path = next_ or next_post or None
-  if form.is_valid():
-    username = form.cleaned_data.get("username")
+  def form_valid(self, form):
+    request = self.request
+    next_ = request.GET.get('next')
+    next_post = request.POST.get('next')
+    redirect_path = next_ or next_post or None
+    email = form.cleaned_data.get("email")
     password = form.cleaned_data.get("password")
-    user = authenticate(request, username=username, password=password)
+    user = authenticate(request, username=email, password=password)
     if user is not None:
       login(request, user)
       try:
@@ -39,9 +39,8 @@ def login_page(request):
         return redirect(redirect_path)
       else:
         return redirect("home")
-    else:
-      print("Error while login")
-  return render(request, "accounts/login.html", context)
+    return super(LoginView, self).form_invalid(form)
+
 
 def logout_page(request):
   logout(request)
