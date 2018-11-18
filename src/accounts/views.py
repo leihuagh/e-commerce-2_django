@@ -1,25 +1,21 @@
 from django.shortcuts import render
-
+from django.views.generic import CreateView, FormView
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.shortcuts import render, redirect
 from django.utils.http import is_safe_url
+from django.urls import reverse_lazy
 
 from .forms import LoginForm, RegisterForm, GuestForm
 from .models import GuestEmail
 
 # Create your views here.
 
-User = get_user_model()
 
+class RegisterView(CreateView):
+  form_class = RegisterForm
+  template_name = 'accounts/register.html'
+  success_url = reverse_lazy('accounts:login')
 
-def register_page(request):
-  form = RegisterForm(request.POST or None)
-  context = {
-    "form": form
-  }
-  if form.is_valid():
-    form.save()
-  return render(request, "accounts/register.html", context)
 
 def login_page(request):
   form = LoginForm(request.POST or None)
