@@ -42,11 +42,6 @@ class LoginView(FormView):
     return super(LoginView, self).form_invalid(form)
 
 
-def logout_page(request):
-  logout(request)
-  return redirect('accounts:login')
-
-
 def guest_register_view(request):
   form = GuestForm(request.POST or None)
   context = {
