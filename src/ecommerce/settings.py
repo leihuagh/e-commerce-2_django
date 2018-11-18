@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'carts.apps.CartsConfig',
     'orders.apps.OrdersConfig',
     'billing.apps.BillingConfig',
-    'addresses.apps.AddressesConfig'
+    'addresses.apps.AddressesConfig',
+    'analytics.apps.AnalyticsConfig'
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
