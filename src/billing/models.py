@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 
 from django.conf import settings
 
@@ -46,3 +46,13 @@ def user_created_receiver(sender, instance, created, *args, **kwargs):
     BillingProfile.objects.get_or_create(user=instance, email=instance.email)
 
 post_save.connect(user_created_receiver, sender=User)
+
+
+def billing_profile_created_receiver(sender, instance, *args, **kwargs):
+  if not instance.customer_id and instance.email:
+    customer = stripe.Customer.create(
+      email=instance.email
+    )
+    instance.customer_id = customer.id
+
+pre_save.connect(billing_profile_created_receiver, sender=BillingProfile)
