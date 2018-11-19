@@ -1,10 +1,10 @@
 from django.conf.urls import url
 
 from .views import (
-  billing_home
+  payment_method_view
   )
 
 urlpatterns = [
-  url(r'^$', billing_home, name='home'),
+  url(r'^payment-method/$', payment_method_view, name='payment_method'),
 ]
 
