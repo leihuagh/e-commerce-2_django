@@ -14,6 +14,10 @@ from .utils import get_client_ip
 User = settings.AUTH_USER_MODEL
 
 
+FORCE_SESSION_TO_ONE = getattr(settings, 'FORCE_SESSION_TO_ONE', False)
+FORCE_INACTIVE_USER_ENDSESSION = getattr(settings, 'FORCE_INACTIVE_USER_ENDSESSION', False)
+
+
 class ObjectViewed(models.Model):
   user            = models.ForeignKey(User, blank=True, null=True)
   content_type    = models.ForeignKey(ContentType, on_delete=models.SET_NULL, null=True)
@@ -42,9 +46,6 @@ def object_viewed_receiver(sender, instance, request, *args, **kwargs):
   )
 
 object_viewed_signal.connect(object_viewed_receiver)
-
-
-
 
 
 
@@ -81,7 +82,8 @@ def post_save_session_receiver(sender, instance, created, *args, **kwargs):
   if not instance.active and not instance.ended:
     instance.end_session()
 
-post_save.connect(post_save_session_receiver, sender=UserSession)
+if FORCE_SESSION_TO_ONE:
+  post_save.connect(post_save_session_receiver, sender=UserSession)
 
 
 
@@ -91,7 +93,9 @@ def post_save_user_changed_receiver(sender, instance, created, *args, **kwargs):
       qs  = UserSession.objects.filter(user=instance.user, active=False, ended=False)
       for s in qs:
         s.end_session()
-post_save.connect(post_save_user_changed_receiver, sender=User)
+
+if FORCE_INACTIVE_USER_ENDSESSION:
+  post_save.connect(post_save_user_changed_receiver, sender=User)
 
 
 
