@@ -85,6 +85,16 @@ post_save.connect(post_save_session_receiver, sender=UserSession)
 
 
 
+def post_save_user_changed_receiver(sender, instance, created, *args, **kwargs):
+  if created:
+    if instance.is_active == False:
+      qs  = UserSession.objects.filter(user=instance.user, active=False, ended=False)
+      for s in qs:
+        s.end_session()
+post_save.connect(post_save_user_changed_receiver, sender=User)
+
+
+
 def user_logged_in_receiver(sender, instance, request, *args, **kwargs):
   user = instance
   ip_address = get_client_ip(request)
