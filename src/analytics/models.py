@@ -57,11 +57,42 @@ class UserSession(models.Model):
   ended           = models.BooleanField(default=False)
 
   def __str__(self, ):
-    return str(self.session_key)
+    return "%s session is: %s" %(self.user, self.session_key)
+
+  def end_session(self):
+    session_key = self.session_key
+    ended = self.ended
+    try:
+      Session.objects.get(pk=session_key).delete()
+      self.active = False
+      self.ended = True
+      self.save()
+    except:
+      pass
+    return self.ended
+
+
+
+def post_save_session_receiver(sender, instance, created, *args, **kwargs):
+  if created:
+    qs  = UserSession.objects.filter(user=instance.user, active=False, ended=False).exclude(id=instance.id)
+    for s in qs:
+      s.end_session()
+  if not instance.active and not instance.ended:
+    instance.end_session()
+
+post_save.connect(post_save_session_receiver, sender=UserSession)
 
 
 
 def user_logged_in_receiver(sender, instance, request, *args, **kwargs):
-  print(instance)
+  user = instance
+  ip_address = get_client_ip(request)
+  session_key = request.session.session_key
+  UserSession.objects.create(
+    user=user,
+    ip_address=ip_address,
+    session_key=session_key
+  )
 
 user_logged_in.connect(user_logged_in_receiver)
