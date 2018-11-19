@@ -6,6 +6,8 @@ from django.conf import settings
 from accounts.models import GuestEmail
 
 # Create your models here.
+import stripe
+stripe.api_key = 'sk_test_r3EsRHlzW559L1tojcPhYbBd'
 
 User = settings.AUTH_USER_MODEL
 
@@ -31,6 +33,7 @@ class BillingProfile(models.Model):
   active = models.BooleanField(default=True)
   timestamp = models.DateTimeField(auto_now_add=True)
   updated = models.DateTimeField(auto_now=True)
+  customer_id = models.CharField(max_length=120, null=True, blank=True)
 
   def __str__(self):
     return self.email
