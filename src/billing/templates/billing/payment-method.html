@@ -126,17 +126,30 @@
           url: paymentMethodEndpoint,
           method: "POST",
           success: function(data) {
-            console.log(data);
+            var successMsg = data.message || 'Success! Your cart was added successfully!';
+            card.clear();
             if (nextUrl) {
-              window.location.href = nextUrl;
-            } else {
-              window.location.reload()
+              successMsg = successMsg + '<br><br><i class="fa fa-spin fa-spinner"></i> Redirecting...';
             }
+            if ($.alert) {
+              $.alert(successMsg);
+            } else {
+              alert(successMsg);
+            }
+            redirectToNext(nextUrl, 1500);
           },
           error: function(error) {
             console.log('Error while creating new payment method', error)
           }
         })
+      }
+
+      function redirectToNext(nextPath, timeOffset) {
+        if (nextPath) {
+          setTimeout(function() {
+            window.location.href = nextPath;
+          }, timeOffset)
+        }
       }
     }
   </script>

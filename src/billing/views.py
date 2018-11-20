@@ -23,7 +23,7 @@ def payment_method_view(request):
 def payment_method_create_view(request):
   if request.method == 'POST' and request.is_ajax():
     print(request.POST)
-    return JsonResponse({"message": "Done"})
+    return JsonResponse({"message": "Success! Your cart was added successfully!"})
   return HttpResponse("error", status_code=401)
 
 
