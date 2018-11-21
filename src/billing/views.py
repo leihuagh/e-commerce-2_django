@@ -32,7 +32,6 @@ def payment_method_view(request):
 
 def payment_method_create_view(request):
   if request.method == 'POST' and request.is_ajax():
-    print(request.POST)
     billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
     if not billing_profile:
       return HttpResponse({"message": "can not find this user"}, status_code=401)
@@ -42,7 +41,6 @@ def payment_method_create_view(request):
       customer = stripe.Customer.retrieve(billing_profile.customer_id)
       card_response = customer.sources.create(source=token)
       new_card_obj = Card.objects.add_new(billing_profile, card_response)
-      print(new_card_obj)
     return JsonResponse({"message": "Success! Your cart was added successfully!"})
   return HttpResponse("error", status_code=401)
 
