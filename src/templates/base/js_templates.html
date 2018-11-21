@@ -1,0 +1,19 @@
+{% verbatim %}
+  <script id="stripeTemplate" type="text/x-jsrender">
+    <form action="" method="POST" id="payment-form" data-token="{{:publishKey}}" data-create="{{:create}}" data-next-url="{{:nextUrl}}" class="payment-form">
+      <div class="form-row">
+        <label for="card-element">
+          Credit or debit card
+        </label>
+        <div id="card-element" class="form-control">
+          <!-- A Stripe Element will be inserted here. -->
+        </div>
+  
+        <!-- Used to display form errors. -->
+        <div id="card-errors" role="alert"></div>
+      </div>
+  
+      <button class="btn btn-primary my-3">{{:btnTitle}}</button>
+    </form>
+  </script>
+{% endverbatim %}
