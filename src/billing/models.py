@@ -43,6 +43,21 @@ class BillingProfile(models.Model):
   def charge(self, order_obj, card=None):
     return Charge.objects.do(self, order_obj, card)
 
+  def get_cards(self):
+    return self.card_set.all()
+
+  @property
+  def has_card(self):
+    card_qs = self.get_cards()
+    return card_qs.exists()
+
+  @property
+  def default_card(self):
+    default_cards = self.get_cards().filter(default=True)
+    if default_cards.exists():
+      return default_cards.first()
+    return None
+
 
 def user_created_receiver(sender, instance, created, *args, **kwargs):
   if created and instance.email:
@@ -67,10 +82,10 @@ pre_save.connect(billing_profile_created_receiver, sender=BillingProfile)
 
 
 class CardManager(models.Manager):
-  def add_new(self, billing_profile, stripe_card_response):
-    obj = None
-    created = False
-    if str(stripe_card_response.object) == 'card':
+  def add_new(self, billing_profile, token):
+    if token:
+      customer = stripe.Customer.retrieve(billing_profile.customer_id)
+      stripe_card_response = customer.sources.create(source=token)
       new_card = self.model(
         billing_profile=billing_profile,
         stripe_id=stripe_card_response.id,

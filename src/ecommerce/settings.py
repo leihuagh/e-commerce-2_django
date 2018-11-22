@@ -54,6 +54,9 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 FORCE_SESSION_TO_ONE = False
 FORCE_INACTIVE_USER_ENDSESSION = False
 
+STRIPE_SECRET_KEY = 'sk_test_r3EsRHlzW559L1tojcPhYbBd'
+STRIPE_PUB_KEY = 'pk_test_7iZ5TStSI7YoApUV7UruHTB3'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
