@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'billing.apps.BillingConfig',
     'addresses.apps.AddressesConfig',
-    'analytics.apps.AnalyticsConfig'
+    'analytics.apps.AnalyticsConfig',
+    'marketing.apps.MarketingConfig'
 ]
 
 AUTH_USER_MODEL = 'accounts.User'

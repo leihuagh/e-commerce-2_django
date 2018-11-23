@@ -39,6 +39,7 @@ urlpatterns = [
   url(r'^billing/', include('billing.urls', namespace='billing')),
   url(r'^addresses/', include('addresses.urls', namespace='addresses')),
   url(r'^analytics/', include('analytics.urls', namespace='analytics')),
+  url(r'^marketing/', include('marketing.urls', namespace='marketing')),
   url(r'^admin/', admin.site.urls),
   
   
