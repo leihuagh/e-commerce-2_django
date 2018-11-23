@@ -97,11 +97,14 @@ $(document).ready(function() {
 
     // Handle form submission.
     var form = $("#payment-form");
+    var btnLoad = form.find('.btn-load');
+    var btnLoadDefaultHtml = btnLoad.html();
+    var btnLoadDefaultClasses = btnLoad.attr("class");
+
     form.on("submit", function(event) {
       event.preventDefault();
 
       var $this = $(this);
-      var btnLoad = $this.find('.btn-load');
       btnLoad.blur();
       var loadTime = 1500;
       var currentTimeout;
@@ -118,28 +121,23 @@ $(document).ready(function() {
           currentTimeout = displayBtnStatus(btnLoad, errorHtml, errorClasses, 1000, currentTimeout);
         } else {
           // Send the token to your server.
-          currentTimeout = displayBtnStatus(btnLoad, loadingHtml, loadingClasses, 2000, currentTimeout);
+          currentTimeout = displayBtnStatus(btnLoad, loadingHtml, loadingClasses, 10000, currentTimeout);
           stripeTokenHandler(nextUrl, result.token);
         }
       });
     });
 
     function displayBtnStatus(element, newHtml, newClasses, loadTime, timeout){
-      // if (timeout){
-      //   clearTimeout(timeout);
-      // }
       if (!loadTime){
         loadTime = 1500;
       }
-      var defaultHtml = element.html();
-      var defaultClasses = element.attr("class");
       element.html(newHtml);
-      element.removeClass(defaultClasses);
+      element.removeClass(btnLoadDefaultClasses);
       element.addClass(newClasses);
       return setTimeout(function(){
-          element.html(defaultHtml);
+          element.html(btnLoadDefaultHtml);
           element.removeClass(newClasses);
-          element.addClass(defaultClasses);
+          element.addClass(btnLoadDefaultClasses);
       }, loadTime);
     }
 
@@ -189,10 +187,15 @@ $(document).ready(function() {
           } else {
             alert(successMsg);
           }
+          btnLoad.html(btnLoadDefaultHtml);
+          btnLoad.attr('class', btnLoadDefaultClasses);
           redirectToNext(nextUrl, 1500);
         },
         error: function(error) {
           console.log("Error while creating new payment method", error);
+          $.alert({title: "An error occured", content: "Please try to add your card again."});
+          btnLoad.html(btnLoadDefaultHtml);
+          btnLoad.attr('class', btnLoadDefaultClasses);
         }
       });
     }

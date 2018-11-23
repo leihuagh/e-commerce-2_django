@@ -11,4 +11,3 @@ urlpatterns = [
   url(r'^payment-method/$', payment_method_view, name='payment_method'),
   url(r'^payment-method/create/$', payment_method_create_view, name='create'),
 ]
-
