@@ -61,7 +61,7 @@ STRIPE_PUB_KEY = 'pk_test_7iZ5TStSI7YoApUV7UruHTB3'
 
 MAILCHIMP_API_KEY           = "aaab14e1fe67de3246e791e8105c089f-us19"
 MAILCHIMP_DATA_CENTER       = 'us19'
-MAILCHIMP_EMAIL_LIST_ID     = '42db4098df'
+MAILCHIMP_EMAIL_LIST_ID     = '72485ae4be'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

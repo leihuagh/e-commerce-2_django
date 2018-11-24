@@ -43,6 +43,7 @@ class Mailchimp(object):
     hashed_email = get_subscriber_hash(email)
     endpoint = self.get_members_endpoint() + "/" + hashed_email
     data = {
+      "email_address": email,
       "status": self.check_valid_status(status)
     }
     r = requests.put(endpoint, auth=("", self.key), data=json.dumps(data))
@@ -64,11 +65,12 @@ class Mailchimp(object):
     # status = "subscribed"
     # self.check_valid_status(status)
     # data = {
-    #     "email_address": email,
-    #     "status": status
+    #   "email_address": email,
+    #   "status": status
     # }
     # endpoint = self.get_members_endpoint()
     # r = requests.post(endpoint, auth=("", self.key), data=json.dumps(data))
+    # return r.json()
     return self.change_subcription_status(email, status='subscribed')
 
   def unsubscribe(self, email):
