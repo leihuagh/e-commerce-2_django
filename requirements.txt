@@ -1,9 +1,0 @@
-certifi==2018.10.15
-chardet==3.0.4
-Django==1.11.6
-idna==2.7
-Pillow==5.3.0
-pytz==2018.6
-requests==2.20.1
-stripe==1.67.0
-urllib3==1.24.1
