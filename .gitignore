@@ -11,7 +11,7 @@ pip-selfcheck.json
 static_cdn/
 img/
 fixtures/
-requirements.txt
+# requirements.txt
 notes.txt
 shell_commands.txt
 
