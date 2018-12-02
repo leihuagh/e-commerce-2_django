@@ -11,6 +11,7 @@ pip-selfcheck.json
 static_cdn/
 img/
 fixtures/
+src/ecommerce/settings/config.py
 # requirements.txt
 notes.txt
 shell_commands.txt
