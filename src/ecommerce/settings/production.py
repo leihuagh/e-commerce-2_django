@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from ..config import Config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -26,6 +27,21 @@ SECRET_KEY = '*o(aj(#l+u-i#j8-#=8e2qc&ax58@6w-&*&6)jx6%t5j3lbctk'
 DEBUG = False
 
 ALLOWED_HOSTS = ['osama-ecommerce.herokuapp.com']
+
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = Config.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = Config.EMAIL_HOST_PASSWORD
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'Python eCommerce <{}>'.format(Config.EMAIL_HOST_USER)
+
+MANAGERS = (
+    ("OSAMA MOHAMED", Config.EMAIL_HOST_USER),
+)
+
+ADMINS = MANAGERS
+
 
 
 # Application definition
