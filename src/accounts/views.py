@@ -1,7 +1,10 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView, FormView, DetailView
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.utils.http import is_safe_url
 from django.urls import reverse_lazy
 
@@ -61,3 +64,27 @@ def guest_register_view(request):
     else:
       return redirect("accounts:register")
   return redirect("accounts:register")
+
+
+class AccountHomeView(LoginRequiredMixin, DetailView):
+  template_name = 'accounts/home.html'
+
+  def get_object(self):
+    return self.request.user
+
+  # @method_decorator(login_required)
+  # def dispatch(self, *args, **kwargs):
+  #   return super(AccountHomeView, self).dispatch(self, *args, **kwargs)
+
+
+
+
+# @login_required
+# def account_home_view(request):
+#   return render(request, "accounts/home.html", {})
+
+
+# class LoginRequiredMixin(object):
+#   @method_decorator(login_required)
+#   def dispatch(self, request, *args, **kwargs):
+#     return super(LoginRequiredMixin, self).dispatch(self, request, *args, **kwargs)

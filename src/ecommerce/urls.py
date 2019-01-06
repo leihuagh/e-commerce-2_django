@@ -21,12 +21,15 @@ from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
 
+# from django.views.generic import RedirectView
+
 from .views import home_page, about_page, contact_page #, register_page, login_page, logout_page
 
 
 urlpatterns = [
   url(r'^$', home_page, name='home'),
   url(r'^about/$', about_page, name='about'),
+#   url(r'^accounts/login/$', RedirectView.as_view(url='/login')),
   url(r'^contact/$', contact_page, name='contact'),
 #   url(r'^register/$', register_page, name='register'),
 #   url(r'^login/$', login_page, name='login'),
