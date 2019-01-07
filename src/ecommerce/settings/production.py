@@ -66,8 +66,8 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
-LOGOUT_REDIRECT_URL = '/accounts/login/'
-# LOGIN_URL = '/login'
+LOGOUT_REDIRECT_URL = '/account/login/'
+LOGIN_URL = '/account/login'
 # LOGIN_REDIRECT_URL = '/'
 # LOGOUT_URL = '/logout/'
 

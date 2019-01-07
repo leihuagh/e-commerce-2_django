@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
 
-# from django.views.generic import RedirectView
+from django.views.generic import RedirectView
 
 from .views import home_page, about_page, contact_page #, register_page, login_page, logout_page
 
@@ -29,12 +29,14 @@ from .views import home_page, about_page, contact_page #, register_page, login_p
 urlpatterns = [
   url(r'^$', home_page, name='home'),
   url(r'^about/$', about_page, name='about'),
-#   url(r'^accounts/login/$', RedirectView.as_view(url='/login')),
+#   url(r'^account/login/$', RedirectView.as_view(url='/login')),
   url(r'^contact/$', contact_page, name='contact'),
 #   url(r'^register/$', register_page, name='register'),
 #   url(r'^login/$', login_page, name='login'),
 #   url(r'^logout/$', logout_page, name='logout'),
-  url(r'^accounts/', include('accounts.urls', namespace='accounts')),
+  url(r'^settings/$', RedirectView.as_view(url='/account')),
+  url(r'^accounts/$', RedirectView.as_view(url='/account')),
+  url(r'^account/', include('accounts.urls', namespace='accounts')),
   url(r'^products/', include('products.urls', namespace='products')),
   url(r'^search/', include('search.urls', namespace='search')),
   url(r'^cart/', include('carts.urls', namespace='cart')),
