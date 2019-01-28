@@ -10,6 +10,7 @@ from django.conf import settings
 from django.db.models.signals import pre_save, post_save
 from django.utils import timezone
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 
 from datetime import timedelta
 from ecommerce.utils import unique_key_generator
@@ -126,6 +127,12 @@ class EmailActivationManager(models.Manager):
 
   def confirmable(self):
     return self.get_queryset().confirmable()
+
+  def email_exists(self, email):
+    return self.get_queryset().filter(
+        Q(email=email) |
+        Q(user__email=email)
+    ).filter(activated=False)
 
 
 class EmailActivation(models.Model):
