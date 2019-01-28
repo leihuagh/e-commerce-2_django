@@ -4,6 +4,12 @@ from django.contrib.auth.models import (
   BaseUserManager
 )
 
+from django.core.mail import send_mail
+from django.template.loader import get_template
+
+
+# send_mail(subject, message, from_email, recipient_list, html_message='')
+
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -22,7 +28,7 @@ class UserManager(BaseUserManager):
     user_obj.set_password(password)
     user_obj.staff = is_staff
     user_obj.admin = is_admin
-    user_obj.active = is_active
+    user_obj.is_active = is_active
     user_obj.save(using=self._db)
     return user_obj
 
@@ -31,7 +37,7 @@ class UserManager(BaseUserManager):
         email,
         full_name,
         password=password,
-        # is_staff=True
+        is_staff=True
     )
     user.staff = True
     user.save(using=self._db)
@@ -42,8 +48,8 @@ class UserManager(BaseUserManager):
         email,
         full_name,
         password=password,
-        # is_staff=True,
-        # is_admin=True
+        is_staff=True,
+        is_admin=True
     )
     user.staff = True
     user.admin = True
@@ -56,7 +62,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser):
   email = models.EmailField(max_length=255, unique=True)
   full_name = models.CharField(max_length=255, blank=True, null=True)
-  active = models.BooleanField(default=True)
+  # active = models.BooleanField(default=True)
   is_active = models.BooleanField(default=True)
   staff = models.BooleanField(default=False)
   admin = models.BooleanField(default=False)

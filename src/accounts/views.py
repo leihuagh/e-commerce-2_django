@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import CreateView, FormView, DetailView
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -34,6 +35,9 @@ class LoginView(FormView):
     password = form.cleaned_data.get("password")
     user = authenticate(request, username=email, password=password)
     if user is not None:
+      if not user.is_active:
+        messages.error(request, 'This user is inactive')
+        return super(LoginView, self).form_invalid(form)
       login(request, user)
       user_logged_in.send(user.__class__, instance=user, request=request)
       try:

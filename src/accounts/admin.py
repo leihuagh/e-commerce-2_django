@@ -23,12 +23,12 @@ class UserAdmin(BaseUserAdmin):
   form = UserAdminChangeForm
   add_form = UserAdminCreationForm
 
-  list_display = ('email', 'full_name', 'admin', 'staff', 'active')
-  list_filter = ('admin', 'staff', 'active', 'email')
+  list_display = ('email', 'full_name', 'admin', 'staff', 'is_active')
+  list_filter = ('admin', 'staff', 'is_active', 'email')
   fieldsets = (
     (None, {'fields': ('email', 'password')}),
     ('Personal info and Full Name', {'fields': ('full_name', 'last_login', )}),
-    ('Permissions', {'fields': ('admin', 'staff', 'active')}),
+    ('Permissions', {'fields': ('admin', 'staff', 'is_active')}),
   )
   add_fieldsets = (
     (None, {

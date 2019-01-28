@@ -28,7 +28,7 @@ class RegisterForm(forms.ModelForm):
   def save(self, commit=True):
     user = super(RegisterForm, self).save(commit=False)
     user.set_password(self.cleaned_data["password1"])
-    # user.active = False
+    user.is_active = False
     if commit:
       user.save()
     return user
@@ -66,7 +66,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
   class Meta:
     model = User
-    fields = ('email', 'full_name', 'password', 'active', 'admin')
+    fields = ('email', 'full_name', 'password', 'is_active', 'admin')
 
   def clean_password(self):
     return self.initial["password"]
