@@ -37,6 +37,7 @@ urlpatterns = [
   url(r'^settings/$', RedirectView.as_view(url='/account')),
   url(r'^accounts/$', RedirectView.as_view(url='/account')),
   url(r'^account/', include('accounts.urls', namespace='accounts')),
+  url(r'^accounts/', include('accounts.passwords.urls')),
   url(r'^products/', include('products.urls', namespace='products')),
   url(r'^search/', include('search.urls', namespace='search')),
   url(r'^cart/', include('carts.urls', namespace='cart')),
