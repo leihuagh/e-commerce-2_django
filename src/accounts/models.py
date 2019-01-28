@@ -8,10 +8,15 @@ from django.core.mail import send_mail
 from django.template.loader import get_template
 from django.conf import settings
 from django.db.models.signals import pre_save, post_save
+from django.utils import timezone
+
+from datetime import timedelta
 from ecommerce.utils import unique_key_generator
 
 
 # Create your models here.
+
+DEFAULT_ACTIVATION_DAYS = getattr(settings, 'DEFAULT_ACTIVATION_DAYS', 7)
 
 class UserManager(BaseUserManager):
   def create_user(self, email, full_name, password=None, is_active=True, is_staff=False, is_admin=False):
@@ -106,18 +111,52 @@ class User(AbstractBaseUser):
 
 
 
+class EmailActivationQuerySet(models.query.QuerySet):
+  def confirmable(self):
+    now = timezone.now()
+    start_range = now - timedelta(days=DEFAULT_ACTIVATION_DAYS)
+    end_range = now
+    return self.filter(activated=False, forced_expired=False).filter(timestamp__gt=start_range, timestamp__lte=end_range)
+
+
+class EmailActivationManager(models.Manager):
+  def get_queryset(self):
+    return EmailActivationQuerySet(self.model, using=self._db)
+
+  def confirmable(self):
+    return self.get_queryset().confirmable()
+
+
 class EmailActivation(models.Model):
   user = models.ForeignKey(User)
   email = models.EmailField()
   key = models.CharField(max_length=120, blank=True, null=True)
   activated = models.BooleanField(default=False)
   forced_expired = models.BooleanField(default=False)
-  expires = models.IntegerField(default=7)
+  expires = models.IntegerField(default=DEFAULT_ACTIVATION_DAYS)
   timestamp = models.DateTimeField(auto_now_add=True)
   updated = models.DateTimeField(auto_now=True)
 
+  objects = EmailActivationManager()
+  
   def __str__(self):
     return self.email
+
+  def can_activate(self):
+    qs = EmailActivation.objects.filter(pk=self.pk).confirmable()
+    if qs.exists():
+      return True
+    return False
+
+  def activate(self):
+    if self.can_activate():
+      user = self.user
+      user.is_active = True
+      user.save()
+      self.activated = True
+      self.save()
+      return True
+    return False
 
   def regenerate(self):
     self.key = None
