@@ -9,6 +9,7 @@ from django.template.loader import get_template
 from django.conf import settings
 from django.db.models.signals import pre_save, post_save
 from django.utils import timezone
+from django.core.urlresolvers import reverse
 
 from datetime import timedelta
 from ecommerce.utils import unique_key_generator
@@ -169,7 +170,7 @@ class EmailActivation(models.Model):
     if not self.activated and not self.forced_expired:
       if self.key:
         base_url = getattr(settings, 'BASE_URL', 'https://osama-ecommerce.herokuapp.com')
-        key_path = self.key
+        key_path = reverse("accounts:email-activate", kwargs={'key': self.key})
         path = "{base}{path}".format(base=base_url, path=key_path)
         context = {
           'path': path,
