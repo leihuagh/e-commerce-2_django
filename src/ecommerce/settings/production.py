@@ -35,6 +35,7 @@ EMAIL_HOST_PASSWORD = Config.EMAIL_HOST_PASSWORD
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Python eCommerce <{}>'.format(Config.EMAIL_HOST_USER)
+BASE_URL = 'https://osama-ecommerce.herokuapp.com'
 
 MANAGERS = (
     ("OSAMA MOHAMED", Config.EMAIL_HOST_USER),
