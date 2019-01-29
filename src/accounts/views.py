@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, FormView, DetailView, View
+from django.views.generic import CreateView, FormView, DetailView, UpdateView, View
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
@@ -12,7 +12,7 @@ from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.views.generic.edit import FormMixin
 
-from .forms import LoginForm, RegisterForm, GuestForm, ReactivateEmailForm
+from .forms import LoginForm, RegisterForm, GuestForm, ReactivateEmailForm, UserDetailChangeForm
 from .models import GuestEmail, EmailActivation
 from .signals import user_logged_in
 from ecommerce.mixins import NextUrlMixin, RequestFormAttachMixin
@@ -108,6 +108,20 @@ class AccountEmailActivateView(FormMixin, View):
     return render(self.request, 'registration/activation-error.html', context)
 
 
+class UserDetailUpdateView(LoginRequiredMixin, UpdateView):
+  form_class = UserDetailChangeForm
+  template_name = 'accounts/detail-update-view.html'
+
+  def get_object(self):
+    return self.request.user
+
+  def get_context_data(self, *args, **kwargs):
+    context = super(UserDetailUpdateView, self).get_context_data(*args, **kwargs)
+    context['title'] = 'Change Your Account Details'
+    return context
+
+  def get_success_url(self):
+    return reverse("accounts:home")
 
 
 # @login_required

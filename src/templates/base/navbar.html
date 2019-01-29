@@ -8,6 +8,8 @@
 {% url 'accounts:logout' as logout_url %}
 {% url 'accounts:home' as account_url %}
 
+{% url 'marketing:email' as preferences_url %}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
   <div class='container'>
     <a class="navbar-brand" href="{{ home_url }}">
@@ -55,7 +57,7 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item {% if request.path == account_url %} active {% endif %}" href="{{ account_url }}">Home</a>
               <a class="dropdown-item" href="#">Billing</a>
-              <a class="dropdown-item" href="#">Preferences</a>
+              <a class="dropdown-item {% if request.path == preferences_url %} active {% endif %}" href="{{ preferences_url }}">Preferences</a>
               <a class="dropdown-item" href="#">History</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{{ logout_url }}">Logout</a>

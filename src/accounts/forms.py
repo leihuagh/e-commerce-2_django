@@ -110,6 +110,14 @@ class GuestForm(forms.ModelForm):
     return obj
 
 
+class UserDetailChangeForm(forms.ModelForm):
+  full_name = forms.CharField(label='Name', required=False, widget=forms.TextInput(attrs={"class": 'form-control'}))
+
+  class Meta:
+    model = User
+    fields = ['full_name']
+
+
 class UserAdminCreationForm(forms.ModelForm):
   password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
   password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
