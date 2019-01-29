@@ -4,7 +4,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
-from .models import EmailActivation
+from .models import EmailActivation, GuestEmail
 
 User = get_user_model()
 
@@ -88,8 +88,26 @@ class RegisterForm(forms.ModelForm):
     return user
 
 
-class GuestForm(forms.Form):
-  email = forms.EmailField()
+class GuestForm(forms.ModelForm):
+  # email = forms.EmailField()
+
+  class Meta:
+    model = GuestEmail
+    fields = [
+      'email'
+    ]
+
+  def __init__(self, request, *args, **kwargs):
+    self.request = request
+    super(GuestForm, self).__init__(*args, **kwargs)
+
+  def save(self, commit=True):
+    obj = super(GuestForm, self).save(commit=False)
+    if commit:
+      obj.save()
+      request = self.request
+      request.session['guest_email_id'] = obj.id
+    return obj
 
 
 class UserAdminCreationForm(forms.ModelForm):
