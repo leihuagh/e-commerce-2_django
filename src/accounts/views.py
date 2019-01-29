@@ -29,7 +29,7 @@ class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
   form_class = LoginForm
   template_name = 'accounts/login.html'
   success_url = reverse_lazy('home')
-  # default_next = reverse_lazy('home')
+  default_next = reverse_lazy('home')
 
   def form_valid(self, form):
     next_path = self.get_next_url()
