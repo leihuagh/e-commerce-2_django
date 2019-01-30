@@ -23,8 +23,9 @@ class UserAdmin(BaseUserAdmin):
   form = UserAdminChangeForm
   add_form = UserAdminCreationForm
 
-  list_display = ('email', 'full_name', 'admin', 'staff', 'is_active')
-  list_filter = ('admin', 'staff', 'is_active', 'email')
+  list_display = ['id', 'email', 'full_name', 'last_login', 'admin', 'staff', 'is_active', 'timestamp']
+  list_display_links = ['email']
+  list_filter = ['admin', 'staff', 'is_active', 'email']
   fieldsets = (
     (None, {'fields': ('email', 'password')}),
     ('Personal info and Full Name', {'fields': ('full_name', 'last_login', )}),
@@ -36,8 +37,8 @@ class UserAdmin(BaseUserAdmin):
       'fields': ('email', 'full_name', 'password1', 'password2')}
     ),
   )
-  search_fields = ('email', 'full_name', )
-  ordering = ('email', )
+  search_fields = ['id', 'email', 'full_name', ]
+  ordering = ['-timestamp']
   filter_horizontal = ()
 
 
