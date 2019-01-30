@@ -18,7 +18,7 @@
           name="shipping_address"
           value="{{ address.id }}"
         />
-        {{ address.address_line_1 }}
+        {{ address.get_short_address }}
       </label>
       <br />
     {% endfor %}

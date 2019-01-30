@@ -43,6 +43,7 @@ urlpatterns = [
   url(r'^cart/', include('carts.urls', namespace='cart')),
   url(r'^orders/', include('orders.urls', namespace='orders')),
   url(r'^billing/', include('billing.urls', namespace='billing')),
+  url(r'^address/$', RedirectView.as_view(url='/addresses')),
   url(r'^addresses/', include('addresses.urls', namespace='addresses')),
   url(r'^analytics/', include('analytics.urls', namespace='analytics')),
   url(r'^marketing/', include('marketing.urls', namespace='marketing')),
