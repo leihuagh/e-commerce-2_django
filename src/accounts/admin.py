@@ -46,9 +46,16 @@ admin.site.unregister(Group)
 
 
 class EmailActivationAdmin(admin.ModelAdmin):
-  search_fields = ['email']
+
+  list_display = ['id', 'email', 'key', 'activated', 'forced_expired', 'expires', 'timestamp', 'updated']
+  list_display_links = ['email']
+  list_filter = ['activated', 'forced_expired', 'expires']
+  search_fields = ['id', 'email', 'key']
+  ordering = ['-timestamp']
+  
   class Meta:
     model = EmailActivation
+
 
 admin.site.register(EmailActivation, EmailActivationAdmin)
 
