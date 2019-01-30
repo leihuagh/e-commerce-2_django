@@ -54,7 +54,13 @@ admin.site.register(EmailActivation, EmailActivationAdmin)
 
 
 class GuestEmailAdmin(admin.ModelAdmin):
-  search_fields = ['email']
+
+  list_display = ['id', '__str__', 'active', 'timestamp', 'updated']
+  list_display_links = ['__str__']
+  list_filter = ['active']
+  search_fields = ['id', 'email']
+  ordering = ['-timestamp']
+  
   class Meta:
     model = GuestEmail
 
