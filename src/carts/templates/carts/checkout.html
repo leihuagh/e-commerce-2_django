@@ -71,7 +71,7 @@
           <p>
             Cart Items: 
             {% for product in object.cart.products.all %}
-              {{ product }}{% if not forloop.last %}, {% endif %}
+              <a href="{{ product.get_absolute_url }}">{{ product }}</a>{% if not forloop.last %}, {% endif %}
             {% endfor %}
           </p>
           <!-- <p>Shipping Address: {{ object.shipping_address.get_address }}</p> -->

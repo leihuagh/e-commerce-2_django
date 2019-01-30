@@ -46,6 +46,14 @@ class Cart(models.Model):
   def __str__(self):
     return str(self.id)
 
+  @property
+  def is_digital(self):
+    qs = self.products.all()
+    new_qs = qs.filter(is_digital=False)
+    if new_qs.exists():
+      return False
+    return True
+
 
 
 def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
