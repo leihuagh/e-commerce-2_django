@@ -5,7 +5,19 @@ from .models import ObjectViewed, UserSession
 # Register your models here.
 
 
-admin.site.register(ObjectViewed)
+class ObjectViewedAdmin(admin.ModelAdmin):
+
+  list_display = ['id', '__str__', 'content_type', 'object_id', 'content_object', 'ip_address', 'timestamp']
+  list_display_links = ['__str__']
+  list_filter = ['user', 'object_id']
+  search_fields = ['id','user__email', 'object_id']
+  ordering = ['-timestamp']
+
+  class Meta:
+    model = ObjectViewed
+
+
+admin.site.register(ObjectViewed, ObjectViewedAdmin)
 
 
 class UserSessionAdmin(admin.ModelAdmin):
