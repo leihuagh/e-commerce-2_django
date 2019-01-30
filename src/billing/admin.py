@@ -20,5 +20,17 @@ class BillingProfileAdmin(admin.ModelAdmin):
 admin.site.register(BillingProfile, BillingProfileAdmin)
 
 
-admin.site.register(Card)
+class CardAdmin(admin.ModelAdmin):
+
+  list_display = ['id', '__str__', 'billing_profile', 'stripe_id', 'brand', 'country', 'exp_month', 'exp_year', 'last4', 'default', 'active', 'timestamp', 'updated']
+  list_display_links = ['__str__']
+  list_filter = ['billing_profile__email', 'brand', 'country', 'exp_month', 'exp_year', 'last4', 'default', 'active']
+  search_fields = ['id', 'billing_profile__email', 'stripe_id', 'country', 'last4']
+  ordering = ['-timestamp']
+
+  class Meta:
+    model = Card
+
+
+admin.site.register(Card, CardAdmin)
 admin.site.register(Charge)
