@@ -33,4 +33,17 @@ class CardAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Card, CardAdmin)
-admin.site.register(Charge)
+
+
+class ChargeAdmin(admin.ModelAdmin):
+
+  list_display = ['id', 'billing_profile', 'stripe_id', 'paid', 'refunded', 'outcome_type', 'seller_message', 'risk_level']
+  list_display_links = ['billing_profile']
+  list_filter = ['paid', 'refunded', 'outcome_type', 'seller_message', 'risk_level']
+  search_fields = ['id', 'billing_profile__email', 'stripe_id']
+  ordering = ['-id']
+
+  class Meta:
+    model = Charge
+
+admin.site.register(Charge, ChargeAdmin)
