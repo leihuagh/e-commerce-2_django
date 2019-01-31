@@ -122,6 +122,9 @@ class ProductFile(models.Model):
   def __str__(self):
     return str(self.file.name)
 
+  def get_default_url(self):
+    return self.product.get_absolute_url()
+
   def get_download_url(self):
     return reverse("products:download", 
       kwargs={"slug": self.product.slug, "pk": self.pk}
