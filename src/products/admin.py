@@ -2,7 +2,16 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Product
+from .models import Product, ProductFile
+
+
+class ProductFileInline(admin.TabularInline):
+  model = ProductFile
+  extra = 1
+
+
+admin.site.register(ProductFile)
+
 
 class ProductAdmin(admin.ModelAdmin):
 
@@ -12,9 +21,11 @@ class ProductAdmin(admin.ModelAdmin):
   list_filter = ['featured', 'active', 'is_digital']
   search_fields = ['id', 'title', 'price']
   ordering = ['-timestamp']
+  inlines = [ProductFileInline]
 
   class Meta:
     model = Product
 
 
 admin.site.register(Product, ProductAdmin)
+
