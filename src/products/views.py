@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView
-from django.http import Http404
+from django.views.generic import ListView, DetailView, View
+from django.http import Http404, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Product
+from .models import Product, ProductFile
 from carts.models import Cart
 from analytics.mixins import ObjectViewedMixin
 
@@ -86,6 +86,18 @@ class UserProductHistoryView(LoginRequiredMixin, ListView):
     request = self.request
     views = request.user.objectviewed_set.by_model(Product, model_queryset=False)
     return views
+
+
+class ProductDownloadView(View):
+  def get(self, *args, **kwargs):
+    slug = kwargs.get('slug')
+    pk = kwargs.get('pk')
+    downloads_qs = ProductFile.objects.filter(pk=pk, product__slug=slug)
+    if downloads_qs.count() != 1:
+      raise Http404("Download not found")
+    download_obj = downloads_qs.first()
+    response = HttpResponse(download_obj.get_download_url())
+    return response
 
 
 # class ProductDetailView(ObjectViewedMixin, DetailView):

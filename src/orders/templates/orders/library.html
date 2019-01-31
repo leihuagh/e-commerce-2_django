@@ -21,7 +21,11 @@
           {% for object in object_list %}
             <tr>
             <td><a href='{{ object.get_absolute_url }}'>{{ object.title }}</a></td>
-            <td>coming soon</td>
+            <td>
+              {% for download in object.get_downloads %}
+                <a href='{{ download.get_download_url }}'>{{ download.name }}</a><br/>
+              {% endfor %}
+            </td>
             </tr>
           {% empty %}
             <tr>
