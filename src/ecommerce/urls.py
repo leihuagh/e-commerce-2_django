@@ -36,6 +36,7 @@ urlpatterns = [
 #   url(r'^logout/$', logout_page, name='logout'),
   url(r'^settings/$', RedirectView.as_view(url='/account')),
   url(r'^accounts/$', RedirectView.as_view(url='/account')),
+#   url(r'^library/$', RedirectView.as_view(url='/orders/library/')),
   url(r'^account/', include('accounts.urls', namespace='accounts')),
   url(r'^accounts/', include('accounts.passwords.urls')),
   url(r'^products/', include('products.urls', namespace='products')),

@@ -1,5 +1,47 @@
 $(document).ready(() => {
   const productForm = $(".form-product-ajax");
+  
+  function getOwnedProduct(productId, submitSpan){
+    const actionEndpoint = '/orders/endpoint/verify/ownership/'
+    const httpMethod = 'GET'
+    const data = {
+      product_id: productId
+    }
+    let isOwner;
+
+    $.ajax({
+      url: actionEndpoint,
+      method: httpMethod,
+      data: data,
+      success: function(data){
+        if (data.owner){
+          isOwner = true
+          submitSpan.html("<a class='btn btn-warning' href='/orders/library/'>In Library</a>");
+        } else {
+          isOwner = false
+        }
+      },
+      error: function(error){
+        console.log("Error when verifiying ownership => ", error);
+      }
+    })
+    return isOwner
+  }
+
+  $.each(productForm, function(index, object){
+    const $this = $(this);
+    const isUser = $this.attr("data-user");
+    const submitSpan = $this.find(".submit-span");
+    const productInput = $this.find("[name='product_id']");
+    const productId = productInput.attr("value");
+    const productIsDigital = productInput.attr("data-is-digital");
+    
+    if (productIsDigital && isUser){
+      const isOwned = getOwnedProduct(productId, submitSpan) 
+    }
+  })  
+
+  
   productForm.submit(function(e) {
     e.preventDefault();
     const thisForm = $(this);
@@ -16,7 +58,11 @@ $(document).ready(() => {
         const submitSpan = thisForm.find(".submit-span");
         if (data.added) {
           submitSpan.html(
-            'In cart <button type="submit" class="btn btn-link">Remove</button>'
+            // '<a href='/cart/'>In cart</a> <button type="submit" class="btn btn-link">Remove</button>'
+            `<div class='btn-group'>
+              <a class='btn btn-link' href='/cart/'>In cart</a> 
+              <button type="submit" class="btn btn-link">Remove</button>
+            </div>`
           );
         } else {
           submitSpan.html(
