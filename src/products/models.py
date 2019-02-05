@@ -110,7 +110,10 @@ def upload_product_file_loc(instance, filename):
   if id_ is None:
     Klass = instance.__class__
     qs = Klass.objects.all().order_by('-pk')
-    id_ = qs.first().id + 1
+    if qs.exists():
+      id_ = qs.first().id + 1
+    else:
+      id_ = 0
   if not slug:
     slug = unique_slug_generator(instance.product)
   location = "product/{slug}/{id}/".format(slug=slug, id=id_)
