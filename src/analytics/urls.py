@@ -1,11 +1,11 @@
 from django.conf.urls import url
 
 from .views import (
-  analytics_home,
+  SalesView,
 )
 
 urlpatterns = [
-  url(r'^$', analytics_home, name='home'),
+  url(r'^sales/$', SalesView.as_view(), name='sales'),
 
 ]
 
