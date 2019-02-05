@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import pre_save, post_save
 from django.core.urlresolvers import reverse
+from django.db.models import Count, Sum, Avg
 
 from ecommerce.utils import unique_order_id_generator
 from carts.models import Cart
@@ -37,6 +38,16 @@ class OrderManagerQuerySet(models.query.QuerySet):
 
   def not_created(self):
     return self.exclude(status='created')
+
+  def totals_data(self):
+    return self.aggregate(Sum("total"), Avg("total"))
+
+  def cart_data(self):
+    return self.aggregate(
+      Sum("cart__products__price"), 
+      Avg("cart__products__price"), 
+      Count("cart__products")
+    )
 
 
 class OrderManager(models.Manager):
