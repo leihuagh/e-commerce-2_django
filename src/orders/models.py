@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models.signals import pre_save, post_save
 from django.core.urlresolvers import reverse
 from django.db.models import Count, Sum, Avg
+from django.utils import timezone
+import datetime
 
 from ecommerce.utils import unique_order_id_generator
 from carts.models import Cart
@@ -48,6 +50,10 @@ class OrderManagerQuerySet(models.query.QuerySet):
       Avg("cart__products__price"), 
       Count("cart__products")
     )
+
+  def by_date(self):
+    now = timezone.now() - datetime.timedelta(days=9) # means sales for today + 9 days ago
+    return self.filter(updated__day__gte=now.day)
 
 
 class OrderManager(models.Manager):
