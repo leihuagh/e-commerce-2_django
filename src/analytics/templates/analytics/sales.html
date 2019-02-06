@@ -1,142 +1,104 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
+
+{% block javascript %}
+
+  <script>
+    const ctx = document.getElementById("myChart").getContext("2d");
+    let myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        datasets: [
+          {
+            label: "Sales Per Day",
+            data: [12, 19, 3, 5, 2, 3, 49],
+            backgroundColor: "rgba(0, 158, 29, 0.45)",
+            borderColor: "rgba(0, 158, 29, 1)"
+          }
+        ]
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true
+              }
+            }
+          ]
+        },
+        backgroundColor: "rgba(75, 192, 192, 1)"
+      }
+    });
+  </script>
+{% endblock %} 
 
 {% block content %}
 
-<div class='row'>
-  <div class='col-12'>
-    <h1>Sales Data</h1>
-  </div>
-</div>
-
-<div class='row'>
-  <div class='col-12'>
-    <h1>Today's sales</h1>
-  </div>
-  <div class='col'>
-    <p>Recent Total: ${{ today.recent_data.total__sum }}</p>
-    <ol>
-      {% for order in today.recent %}
-        <li>
-          <a href="{{ order.get_absolute_url }}">
-            {{ order.order_id }}
-          </a>
-          <strong>Total : </strong> {{ order.total }}
-          <br>
-          , at : {{ order.updated }}
-        </li>
-        <br>
-      {% endfor %}
-    </ol>
+  <div class="row my-5">
+    <div class="col-12">
+      <h1>Sales Data</h1>
+    </div>
   </div>
 
-  <div class='col'>
-    <p>Shipped Total: ${{ today.shipped_data.total__sum }}</p>
-    <ol>
-      {% for order in today.shipped %}
-        <li>
-          <a href="{{ order.get_absolute_url }}">
-            {{ order.order_id }}
-          </a>
-          <strong>Total : </strong> {{ order.total }}
-          <br>
-          , at : {{ order.updated }}
-        </li>
-        <br>
-      {% endfor %}
-    </ol>
+  <hr />
+
+  <div class="row my-5">
+    <div class="col-4">
+      <h3>Today's sales</h3>
+      <hr />
+      <p>Recent Total: ${{ today.recent_data.total__sum }}</p>
+      <ol>
+        {% for order in today.recent|slice:":5" %}
+          <li>
+            <a href="{{ order.get_absolute_url }}">
+              {{ order.order_id }}
+            </a>
+            <strong>Total : </strong> {{ order.total }}
+            <br>
+            , at : {{ order.updated }}
+          </li>
+        {% endfor %}
+      </ol>
+
+      <h3>This week's sales</h3>
+      <hr />
+      <p>Recent Total: ${{ this_week.recent_data.total__sum }}</p>
+      <ol>
+        {% for order in this_week.recent|slice:":5" %}
+          <li>
+            <a href="{{ order.get_absolute_url }}">
+              {{ order.order_id }}
+            </a>
+            <strong>Total : </strong> {{ order.total }}
+            <br>
+            , at : {{ order.updated }}
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+
+    <div class="col"><canvas id="myChart" width="400" height="400"></canvas></div>
   </div>
 
-  <div class='col'>
-    <p>Paid Total: ${{ today.paid_data.total__sum }}</p>
-    <ol>
-      {% for order in today.paid %}
-        <li>
-          <a href="{{ order.get_absolute_url }}">
-            {{ order.order_id }}
-          </a>
-          <strong>Total : </strong> {{ order.total }}
-          <br>
-          , at : {{ order.updated }}
-        </li>
-        <br>
-      {% endfor %}
-    </ol>
-  </div>
-</div>
+  <hr />
 
-<div class='row'>
-  <div class='col-12'>
-    <h1>This week's sales</h1>
+  <div class="row my-5">
+    <div class="col-12"><h1>Previous 4 weeks</h1></div>
+    <div class="col">
+      <p>Orders Total: ${{ last_four_weeks.recent_data.total__sum }}</p>
+    </div>
+    <div class="col">
+      <p>
+        Shipped Total: 
+        {% if last_four_weeks.shipped_data.total__sum %} 
+          ${{ last_four_weeks.shipped_data.total__sum }}
+        {% endif %}
+      </p>
+    </div>
+    <div class="col">
+      <p>Paid Totals: ${{ last_four_weeks.paid_data.total__sum }}</p>
+    </div>
   </div>
-
-  <div class='col'>
-    <p>Recent Total: ${{ this_week.recent_data.total__sum }}</p>
-    <ol>
-      {% for order in this_week.recent %}
-        <li>
-          <a href="{{ order.get_absolute_url }}">
-            {{ order.order_id }}
-          </a>
-          <strong>Total : </strong> {{ order.total }}
-          <br>
-          , at : {{ order.updated }}
-        </li>
-      {% endfor %}
-    </ol>
-  </div>
-
-  <div class='col'>
-    <p>Shipped Total: ${{ this_week.shipped_data.total__sum }}</p>
-    <ol>
-      {% for order in this_week.shipped %}
-        <li>
-          <a href="{{ order.get_absolute_url }}">
-            {{ order.order_id }}
-          </a>
-          <strong>Total : </strong> {{ order.total }}
-          <br>
-          , at : {{ order.updated }}
-        </li>
-      {% endfor %}
-    </ol>
-  </div>
-
-  <div class='col'>
-    <p>Paid Totals: ${{ this_week.paid_data.total__sum }}</p>
-    <ol>
-      {% for order in this_week.paid %}
-        <li>
-          <a href="{{ order.get_absolute_url }}">
-            {{ order.order_id }}
-          </a>
-          <strong>Total : </strong> {{ order.total }}
-          <br>
-          , at : {{ order.updated }}
-        </li>
-      {% endfor %}
-    </ol>
-  </div>
-</div>
-
-
-<div class='row'>
-  <div class='col-12'>
-    <h1>Previous 4 weeks</h1>
-  </div>
-  <div class='col'>
-    <p>Orders Total: ${{ last_four_weeks.recent_data.total__sum }}</p>
-  </div>
-  <div class='col'>
-    <p>
-      Shipped Total: 
-      {% if last_four_weeks.shipped_data.total__sum %}
-        ${{ last_four_weeks.shipped_data.total__sum }} 
-      {% endif %}
-    </p>
-  </div>
-  <div class='col'>
-    <p>Paid Totals: ${{ last_four_weeks.paid_data.total__sum }}</p>
-  </div>
-</div>
 
 {% endblock %}
