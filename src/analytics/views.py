@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
-from django.views.generic import TemplateView
+from django.http import HttpResponse, JsonResponse
+from django.views.generic import TemplateView, View
 from django.shortcuts import render
 from django.utils import  timezone
 import datetime
@@ -28,3 +28,16 @@ class SalesView(LoginRequiredMixin, TemplateView):
     context['this_week'] = qs.by_weeks_range(weeks_ago=1, number_of_weeks=1).get_sales_breakdown()
     context['last_four_weeks'] = qs.by_weeks_range(weeks_ago=5, number_of_weeks=4).get_sales_breakdown()
     return context
+
+
+class SalesAjaxView(View):
+  def get(self, request, *args, **kwargs):
+    data = {}
+    if request.user.is_staff:
+      if request.GET.get('type') == 'week':
+        data['labels'] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        data['data'] = [123, 131, 232, 12, 323, 313, 3193]
+      if request.GET.get('type') == '4weeks':
+        data['labels'] = ["Last Week", "Two Weeks Ago", "Three Weeks Ago", "Four Weeks Ago"]
+        data['data'] = [123, 131, 343, 13231]
+    return JsonResponse(data)
