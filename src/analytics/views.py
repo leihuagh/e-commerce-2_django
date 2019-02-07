@@ -24,6 +24,10 @@ class SalesView(LoginRequiredMixin, TemplateView):
     # two_weeks_ago = timezone.now() - datetime.timedelta(days=14)
     # one_week_ago = timezone.now() - datetime.timedelta(days=7)
     qs = Order.objects.all().by_weeks_range(weeks_ago=10, number_of_weeks=10)
+    start_date = timezone.now().date() - datetime.timedelta(hours=24)
+    end_date = timezone.now().date() + datetime.timedelta(hours=12)
+    yesterday_data = qs.by_range(start_date=start_date, end_date=end_date).get_sales_breakdown()
+    context['yesterday'] = yesterday_data
     context['today'] = qs.by_range(start_date=timezone.now().date()).get_sales_breakdown()
     context['this_week'] = qs.by_weeks_range(weeks_ago=1, number_of_weeks=1).get_sales_breakdown()
     context['last_four_weeks'] = qs.by_weeks_range(weeks_ago=5, number_of_weeks=4).get_sales_breakdown()

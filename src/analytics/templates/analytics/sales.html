@@ -30,6 +30,24 @@
         {% endfor %}
       </ul>
 
+      <h3>Yesterday's sales</h3>
+      <hr />
+      <p>Recent Total: ${{ yesterday.recent_data.total__sum }}</p>
+      <ul>
+        {% for order in yesterday.recent|slice:":5" %}
+          <li class='my-3'>
+            Order 
+            <a href="{{ order.get_absolute_url }}">
+              #{{ order.order_id }} 
+            </a>
+            <br>
+            <strong>Total : </strong> ${{ order.total }} 
+            <br>
+            {{ order.updated|timesince }} ago
+          </li>          
+        {% endfor %}
+      </ul>
+
       <h3>This week's sales</h3>
       <hr />
       <p>Recent Total: ${{ this_week.recent_data.total__sum }}</p>
