@@ -134,6 +134,9 @@ class Order(models.Model):
 
   def get_absolute_url(self):
     return reverse("orders:detail", kwargs={'order_id': self.order_id})
+  
+  def get_absolute_pdf_url(self):
+    return reverse("orders:detail-download", kwargs={'order_id': self.order_id})
 
   def get_status(self):
     if self.status == "refunded":

@@ -1,10 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from django.views.generic import ListView, DetailView, View
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.conf import settings
 
 from billing.models import BillingProfile
 from .models import Order, ProductPurchase
+
+from ecommerce.utils import render_to_pdf
 
 
 class OrderListView(LoginRequiredMixin, ListView):
@@ -41,3 +44,37 @@ class VerifyOwnership(View):
           return JsonResponse({'owner': True})
       return JsonResponse({'owner': False})
     raise Http404
+
+
+class OrderDetailGeneratePDFView(View):
+  def get(self, request, *args, **kwargs):
+    qs = Order.objects.by_request(self.request).filter(order_id=self.kwargs.get('order_id'))
+    if qs.count() == 1:
+      order = qs.first()
+      context = {
+        'user': request.user,
+        'order_id': order.order_id,
+        'cart_items': order.cart,
+        'shipping_address_final': order.shipping_address_final,
+        'billing_address_final': order.billing_address_final,
+        'cart': order.cart,
+        'shipping_total': order.shipping_total,
+        'subtotal_percentage': settings.SUB_TOTAL_PERCENTAGE,
+        'fee': round(order.cart.total - order.cart.subtotal, 2),
+        'total': order.total,
+        'status': order.get_status,
+      }
+      pdf = render_to_pdf('pdf/order-detail.html', context)
+      # return HttpResponse(pdf, content_type='application/pdf')
+      if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "Order-{}-detail.pdf".format(order.order_id)
+        content = "inline; filename={}".format(filename)
+        download = request.GET.get("download")
+        if download:
+          print('downloadddddddddddddddddddddddddddddddddd')
+          content = "attachment; filename={}".format(filename)
+        response['Content-Disposition'] = content
+        return response
+      return HttpResponse("Not found")
+    return redirect("orders:list")

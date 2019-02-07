@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <title>Order #{{ order_id }}</title>
+  </head>
+
+  <body>
+    
+    <div class="row">
+      <div class="col-12 col-md-6 mx-auto">
+        <h1>Account ID : #{{ user.id }}</h1>
+        <h1>Account E-mail : {{ user.email }}</h1>
+        <h1>Account Username : {{ user.full_name }}</h1>
+        <h1>Order #{{ order_id }}</h1>
+        <h1>Cart ID : #{{ cart.id }}</h1>
+        <hr />
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-12 col-md-6 mx-auto">
+        <p>
+          Items: 
+          {% for product in cart_items.products.all %}
+            <a href="{{ product.get_absolute_url }}">{{ product }}</a>
+            {% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+        <p>Shipping Address: {{ shipping_address_final }}</p>
+        <p>Billing Address: {{ billing_address_final }}</p>
+        <p>Subtotal: ${{ cart.subtotal }}</p>
+        <p>Subtotal percentage: {{ subtotal_percentage }}%</p>
+        <p>Fee : ${{ fee }}</p>
+        <p>Total: ${{ cart.total }}</p>
+        <p>Shipping Total: ${{ shipping_total }}</p>
+        <p>Order Total: ${{ total }}</p>
+        <p>Order Status: {{ status }}</p>
+      </div>
+    </div>
+  
+  </body>
+</html>
