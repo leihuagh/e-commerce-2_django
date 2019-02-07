@@ -14,6 +14,7 @@
 {% url 'addresses:list' as addresses_url %}
 {% url 'billing:payment_method' as billing_url %}
 {% url 'orders:library' as user_library_url%}
+{% url 'analytics:sales' as analytics_sales_url%}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
   <div class='container'>
@@ -71,6 +72,11 @@
               <a class="dropdown-item" href="{{ logout_url }}">Logout</a>
             </div>
           </li>
+          {% if request.user.is_staff %}
+            <li class="nav-item {% if request.path == analytics_sales_url %} active {% endif %}">
+              <a class="nav-link" href="{{ analytics_sales_url }}">Sales</a>
+            </li>
+          {% endif %}
 
         {% else %}
           <li class="nav-item {% if request.path == register_url %} active {% endif %}">
