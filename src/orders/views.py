@@ -72,7 +72,6 @@ class OrderDetailGeneratePDFView(View):
         content = "inline; filename={}".format(filename)
         download = request.GET.get("download")
         if download:
-          print('downloadddddddddddddddddddddddddddddddddd')
           content = "attachment; filename={}".format(filename)
         response['Content-Disposition'] = content
         return response
