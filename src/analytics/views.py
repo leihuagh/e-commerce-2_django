@@ -32,12 +32,54 @@ class SalesView(LoginRequiredMixin, TemplateView):
 
 class SalesAjaxView(View):
   def get(self, request, *args, **kwargs):
-    data = {}
-    if request.user.is_staff:
-      if request.GET.get('type') == 'week':
-        data['labels'] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-        data['data'] = [123, 131, 232, 12, 323, 313, 3193]
-      if request.GET.get('type') == '4weeks':
-        data['labels'] = ["Last Week", "Two Weeks Ago", "Three Weeks Ago", "Four Weeks Ago"]
-        data['data'] = [123, 131, 343, 13231]
-    return JsonResponse(data)
+    if request.is_ajax():
+      data = {}
+      if request.user.is_staff:
+        qs = Order.objects.all().by_weeks_range(weeks_ago=5, number_of_weeks=5)
+        if request.GET.get('type') == 'week':
+          days = 7
+          start_date = timezone.now().today() - datetime.timedelta(days=days-1)
+          datetime_list = []
+          labels = []
+          salesItems = []
+          # labels2 = []
+          for x in range(0, days):
+            new_time = start_date + datetime.timedelta(days=x)
+            datetime_list.append(new_time)
+            labels.append(new_time.strftime("%A")) # mon
+
+            # labels2.append(new_time.strftime("%Y")) # 2019
+            # labels2.append(new_time.strftime("%y")) # 19
+            # labels2.append(new_time.strftime("%B")) # February
+            # labels2.append(new_time.strftime("%h")) # Feb
+            # labels2.append(new_time.strftime("%b")) # Feb
+            # labels2.append(new_time.strftime("%m")) # 02
+            # labels2.append(new_time.strftime("%d")) # 01
+            # labels2.append(new_time.strftime("%A")) # Friday
+            # labels2.append(new_time.strftime("%a")) # Fri
+            # labels2.append(new_time.strftime("%H:%M:%S")) # 09:03:34
+            # labels2.append(new_time.strftime("%H")) # 09
+            # labels2.append(new_time.strftime("%I%p")) # 09AM
+            # labels2.append(new_time.strftime("%M")) # 03
+            # labels2.append(new_time.strftime("%S")) # 34
+            # labels2.append(new_time.strftime("%d/%m/%Y, %H:%M:%S")) # 01/02/2019, 09:03:34
+            # labels2.append(new_time.strftime("%c")) # Fri Feb  1 09:03:34 2019
+            # labels2.append(new_time.strftime("%x")) # 02/01/19
+            # labels2.append(new_time.strftime("%X")) # 09:03:34
+
+            new_qs = qs.filter(updated__day=new_time.day, updated__month=new_time.month)
+            day_total = new_qs.totals_data()['total__sum'] or 0
+            salesItems.append(day_total)
+          data['labels'] = labels
+          data['data'] = salesItems
+        if request.GET.get('type') == '4weeks':
+          data['labels'] = ["Four Weeks Ago", "Three Weeks Ago", "Two Weeks Ago", "Last Week", "This Week"]
+          current = 5
+          data['data'] = []
+          for i in range(0, 5):
+            new_qs = qs.by_weeks_range(weeks_ago=current, number_of_weeks=1)
+            sales_total = new_qs.totals_data()['total__sum'] or 0
+            data['data'].append(sales_total)
+            current -= 1
+      return JsonResponse(data)
+    return JsonResponse({'msg': 'Not Allowed'})
