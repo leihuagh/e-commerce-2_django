@@ -79,34 +79,38 @@
       <h3>Today's sales</h3>
       <hr />
       <p>Recent Total: ${{ today.recent_data.total__sum }}</p>
-      <ol>
+      <ul>
         {% for order in today.recent|slice:":5" %}
-          <li>
+          <li class='my-3'>
+            Order 
             <a href="{{ order.get_absolute_url }}">
-              {{ order.order_id }} 
+              #{{ order.order_id }} 
             </a>
-            <strong>Total : </strong> {{ order.total }} 
             <br>
-            , at : {{ order.updated }}
+            <strong>Total : </strong> ${{ order.total }} 
+            <br>
+            {{ order.updated|timesince }} ago
           </li>          
         {% endfor %}
-      </ol>
+      </ul>
 
       <h3>This week's sales</h3>
       <hr />
       <p>Recent Total: ${{ this_week.recent_data.total__sum }}</p>
-      <ol>
+      <ul>
         {% for order in this_week.recent|slice:":5" %}
-          <li>
+          <li class='my-3'>
+            Order 
             <a href="{{ order.get_absolute_url }}">
-              {{ order.order_id }}
+              #{{ order.order_id }}
             </a>
-            <strong>Total : </strong> {{ order.total }}
             <br>
-            , at : {{ order.updated }}
+            <strong>Total : </strong> ${{ order.total }}
+            <br>
+            {{ order.updated|timesince }} ago
           </li>          
         {% endfor %}
-      </ol>
+      </ul>
     </div>
 
     <div class="col">
