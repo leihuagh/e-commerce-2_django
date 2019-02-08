@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <title>Product #{{ product_id }}</title>
+  </head>
+
+  <body>
+    
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <h1>{{ title }} - {{ slug }}</h1>
+        <p class="lead">URL: {{ url }}</p>
+        <p class="lead">Published: {{ timestamp | timesince}} ago.</p>
+        <br>
+        {{ full_url }}
+        <p class="lead">{{ price }} &#36;</p>
+        {% if image %}
+          <img src="{{ full_url }}" alt="{{ title }}" >
+        {% endif %}
+        <hr>
+        <br>
+        {{ description | linebreaks }}
+        <br>
+      </div>
+    </div>
+  
+  </body>
+</html>

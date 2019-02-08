@@ -9,6 +9,7 @@ from carts.models import Cart
 from orders.models import ProductPurchase
 from analytics.mixins import ObjectViewedMixin
 
+from ecommerce.utils import render_to_pdf
 
 import os
 from wsgiref.util import FileWrapper
@@ -138,6 +139,39 @@ class ProductDownloadView(View):
       return response
     # return redirect(download_obj.get_default_url())
 
+
+
+class ProductDetailGeneratePDFView(View):
+  def get(self, request, *args, **kwargs):
+    qs = Product.objects.filter(slug=self.kwargs.get('slug'))
+    if qs.count() == 1:
+      product = qs.first()
+      # request.META['HTTP_HOST']
+      context = {
+        'product_id': product.id,
+        'title': product.title,
+        'slug': product.slug,
+        'timestamp': product.timestamp,
+        'price': product.price,
+        'description': product.description,
+        'url': product.get_absolute_url,
+        'full_url': settings.BASE_URL + product.image.url,
+      }
+      if product.image:
+        context['image'] = product.image.url
+      pdf = render_to_pdf('pdf/product-detail.html', context)
+      # return HttpResponse(pdf, content_type='application/pdf')
+      if pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "Product-{}-{}-detail.pdf".format(product.id, product.slug)
+        content = "inline; filename={}".format(filename)
+        download = request.GET.get("download")
+        if download:
+          content = "attachment; filename={}".format(filename)
+        response['Content-Disposition'] = content
+        return response
+      return HttpResponse("Not found")
+    return redirect("products:list")
 
 # class ProductDetailView(ObjectViewedMixin, DetailView):
 #   # queryset = Product.objects.all()

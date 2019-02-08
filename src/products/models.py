@@ -79,6 +79,9 @@ class Product(models.Model):
   def get_absolute_url(self):
     # return '/products/{slug}/'.format(slug=self.slug)
     return reverse('products:detail', kwargs={'slug': self.slug})
+  
+  def get_absolute_pdf_url(self):
+    return reverse('products:detail-download', kwargs={'slug': self.slug})
 
   def __str__(self):
     return self.title

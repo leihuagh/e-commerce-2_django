@@ -7,10 +7,14 @@
     <div class="col-12 col-md-6">
       <h1>{{ object.title }}</h1>
       <p class="lead">Published: {{ object.timestamp | timesince}} ago.</p>
+      <a href="{{ object.get_absolute_pdf_url }}" class="btn btn-outline-success">Download PDF</a>
+      <br>
       <br>
       <p class="lead">{{ object.price }} &#36;</p>
       {% if object.image %}
-        <img src="{{object.image.url}}" alt="{{object.title}}" class="img-fluid">
+        <a href="{{object.image.url}}" target="_blank">
+          <img src="{{object.image.url}}" alt="{{object.title}}" class="img-fluid">
+        </a>
       {% endif %}
       <hr>
       <br>

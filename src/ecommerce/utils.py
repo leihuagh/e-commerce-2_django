@@ -61,6 +61,10 @@ def render_to_pdf(template_src, context_dict={}):
   html  = template.render(context_dict)
   result = BytesIO()
   pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+  # response = HttpResponse(content_type='application/pdf') 
+  # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+  # pdf = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), dest=response)
   if not pdf.err:
     return HttpResponse(result.getvalue(), content_type='application/pdf')
+    # return response
   return None
