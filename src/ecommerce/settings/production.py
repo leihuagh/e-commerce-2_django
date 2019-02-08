@@ -134,7 +134,7 @@ DATABASES = {
 import dj_database_url
 db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)
-DATABASES['default']['CONN_MAX_AGE'] = 500
+DATABASES['default']['CONN_MAX_AGE'] = 6000
 
 
 # Password validation
@@ -179,13 +179,13 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_local")
 ]
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "static_root")
+STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn", "static_root")
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
+MEDIA_ROOT = os.path.join(BASE_DIR, "static_cdn", "media_root")
 
-PROTECTED_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "protected_media")
+PROTECTED_ROOT = os.path.join(BASE_DIR, "static_cdn", "protected_media")
 
 
 CORS_REPLACE_HTTPS_REFERER      = True
