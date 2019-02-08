@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = '*o(aj(#l+u-i#j8-#=8e2qc&ax58@6w-&*&6)jx6%t5j3lbctk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['osama-ecommerce.herokuapp.com']
 
@@ -123,11 +123,11 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'e_commerce',
-        'HOST': 'localhost',
-        'PORT': '3306',
-        'USER': 'OSAMA',
-        'PASSWORD': 'OSAMA',
+        'NAME': Config.DATABASE_NAME,
+        'HOST': Config.DATABASE_HOST,
+        'USER': Config.DATABASE_USER,
+        'PASSWORD': Config.DATABASE_PASSWORD,
+        'PORT': '',
     }
 }
 
@@ -167,7 +167,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
