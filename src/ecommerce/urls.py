@@ -23,14 +23,14 @@ from django.contrib import admin
 
 from django.views.generic import RedirectView
 
-from .views import home_page, about_page, contact_page #, register_page, login_page, logout_page
+from .views import home_page, about_page #, contact_page #, register_page, login_page, logout_page
 
 
 urlpatterns = [
   url(r'^$', home_page, name='home'),
   url(r'^about/$', about_page, name='about'),
 #   url(r'^account/login/$', RedirectView.as_view(url='/login')),
-  url(r'^contact/$', contact_page, name='contact'),
+#   url(r'^contact/$', contact_page, name='contact'),
 #   url(r'^register/$', register_page, name='register'),
 #   url(r'^login/$', login_page, name='login'),
 #   url(r'^logout/$', logout_page, name='logout'),
@@ -48,6 +48,7 @@ urlpatterns = [
   url(r'^addresses/', include('addresses.urls', namespace='addresses')),
   url(r'^analytics/', include('analytics.urls', namespace='analytics')),
   url(r'^marketing/', include('marketing.urls', namespace='marketing')),
+  url(r'^contact/', include('contact.urls', namespace='contact')),
   url(r'^admin/', admin.site.urls),
   
   
