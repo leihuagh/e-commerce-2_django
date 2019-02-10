@@ -12,7 +12,6 @@
 
   <div class="text-center">
     <h1>{{ title }}</h1>
-    <h1>Hello, world!</h1>
   </div>
   <div class="row">
     <div class="col">
@@ -26,8 +25,7 @@
   {% if request.user.is_authenticated %}
   <div class="row">
     <div class="col">
-      <h1>Logged in User</h1>
-      {{logged_content}}
+      {{ logged_content }}
     </div>
   </div>
   {% endif %}

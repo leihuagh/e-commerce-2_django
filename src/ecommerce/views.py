@@ -7,7 +7,7 @@ def home_page(request):
     "content": "Welcome to home page" 
   }
   if request.user.is_authenticated():
-    context["logged_content"] = "logged users content"
+    context["logged_content"] = request.user
   return render(request, "home_page.html", context)
 
 
