@@ -8,7 +8,7 @@ from accounts.models import GuestEmail
 
 # Create your models here.
 import stripe
-STRIPE_SECRET_KEY = getattr(settings, 'STRIPE_SECRET_KEY', 'sk_test_r3EsRHlzW559L1tojcPhYbBd')
+STRIPE_SECRET_KEY = getattr(settings, 'STRIPE_SECRET_KEY')
 stripe.api_key = STRIPE_SECRET_KEY
 
 User = settings.AUTH_USER_MODEL
