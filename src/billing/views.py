@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.utils.http import is_safe_url
 from django.conf import settings
-from django.views.generic import ListView, TemplateView, View
+from django.views.generic import View
 
 from .models import BillingProfile, Card
 
@@ -85,7 +85,3 @@ class PaymentMethodCreateView(View):
 #       new_card_obj = Card.objects.add_new(billing_profile, token)
 #     return JsonResponse({"message": "Success! Your cart was added successfully!"})
 #   return HttpResponse("error", status=401)
-
-
-def billing_home(request):
-  return 'billing'
