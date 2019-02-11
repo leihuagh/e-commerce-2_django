@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from .views import (
-  checkout_address_create_view,
+  CheckoutAddressCreateView,
   CheckoutAddressReuseView,
   AddressListView,
   AddressCreateView,
@@ -9,7 +9,7 @@ from .views import (
   )
 
 urlpatterns = [
-  url(r'^checkout/address/create/$', checkout_address_create_view, name='create'),
+  url(r'^checkout/address/create/$', CheckoutAddressCreateView.as_view(), name='create'),
   url(r'^checkout/address/reuse/$', CheckoutAddressReuseView.as_view(), name='reuse'),
   url(r'^$', AddressListView.as_view(), name='list'),
   url(r'^create/$', AddressCreateView.as_view(), name='address-create'),
