@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.conf import settings
+from django.views.generic import TemplateView
 
 from .models import Cart
 from products.models import Product
@@ -115,5 +116,5 @@ def checkout_home(request):
   return render(request, 'carts/checkout.html', context)
 
 
-def checkout_done_view(request):
-  return render(request, 'carts/checkout-done.html', {})
+class CheckoutDoneView(TemplateView):
+  template_name = 'carts/checkout-done.html'
