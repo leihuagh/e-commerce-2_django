@@ -23,11 +23,11 @@ from django.contrib import admin
 
 from django.views.generic import RedirectView
 
-from .views import home_page, AboutView #, contact_page #, register_page, login_page, logout_page
+from .views import HomeView, AboutView #, contact_page #, register_page, login_page, logout_page
 
 
 urlpatterns = [
-  url(r'^$', home_page, name='home'),
+  url(r'^$', HomeView.as_view(), name='home'),
   url(r'^about/$', AboutView.as_view(), name='about'),
 #   url(r'^account/login/$', RedirectView.as_view(url='/login')),
 #   url(r'^contact/$', contact_page, name='contact'),
