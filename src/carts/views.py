@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.conf import settings
-from django.views.generic import TemplateView
+from django.views.generic import ListView, TemplateView, View
 
 from .models import Cart
 from products.models import Product
@@ -23,8 +23,9 @@ stripe.api_key = STRIPE_SECRET_KEY
 # Create your views here.
 
 
-class CartHomeView(TemplateView):
+class CartHomeView(ListView):
   template_name = 'carts/home.html'
+  queryset = ''
 
   def get_context_data(self, **kwargs):
     context = super(CartHomeView, self).get_context_data(**kwargs)
@@ -33,31 +34,58 @@ class CartHomeView(TemplateView):
     return context
 
 
-def cart_update(request):
-  product_id = request.POST.get('product_id')
-  if product_id is not None:
-    try:
-      product_obj = Product.objects.get(id=product_id)
-    except Product.DoesNotExist:
-      return redirect('cart:home')  
-    cart_obj, new_obj = Cart.objects.new_or_get(request)
-    if product_obj in cart_obj.products.all():
-      cart_obj.products.remove(product_obj)
-      added = False
-    else:
-      cart_obj.products.add(product_obj)
-      added = True
-    request.session['cart_items'] = cart_obj.products.count()
-    if request.is_ajax():
-      json_data = {
-        "added": added,
-        "removed": not added,
-        "cartItemCount": cart_obj.products.count()
-      }
-      return JsonResponse(json_data, status=200)
-      # return JsonResponse({"message": "Error 400"}, status=400)
-  # return  redirect(product_obj.get_absolute_url())
-  return redirect('cart:home')
+class CartUpdateView(View):
+
+  def post(self, request):
+    product_id = request.POST.get('product_id')
+    if product_id is not None:
+      try:
+        product_obj = Product.objects.get(id=product_id)
+      except Product.DoesNotExist:
+        return redirect('cart:home')  
+      cart_obj, new_obj = Cart.objects.new_or_get(request)
+      if product_obj in cart_obj.products.all():
+        cart_obj.products.remove(product_obj)
+        added = False
+      else:
+        cart_obj.products.add(product_obj)
+        added = True
+      request.session['cart_items'] = cart_obj.products.count()
+      if request.is_ajax():
+        json_data = {
+          "added": added,
+          "removed": not added,
+          "cartItemCount": cart_obj.products.count()
+        }
+        return JsonResponse(json_data, status=200)
+    return redirect('cart:home')
+
+
+# def cart_update(request):
+#   product_id = request.POST.get('product_id')
+#   if product_id is not None:
+#     try:
+#       product_obj = Product.objects.get(id=product_id)
+#     except Product.DoesNotExist:
+#       return redirect('cart:home')  
+#     cart_obj, new_obj = Cart.objects.new_or_get(request)
+#     if product_obj in cart_obj.products.all():
+#       cart_obj.products.remove(product_obj)
+#       added = False
+#     else:
+#       cart_obj.products.add(product_obj)
+#       added = True
+#     request.session['cart_items'] = cart_obj.products.count()
+#     if request.is_ajax():
+#       json_data = {
+#         "added": added,
+#         "removed": not added,
+#         "cartItemCount": cart_obj.products.count()
+#       }
+#       return JsonResponse(json_data, status=200)
+#       # return JsonResponse({"message": "Error 400"}, status=400)
+#   # return  redirect(product_obj.get_absolute_url())
+#   return redirect('cart:home')
 
 def checkout_home(request):
   cart_obj, cart_created = Cart.objects.new_or_get(request)
