@@ -1,9 +1,9 @@
 from django.conf.urls import url
 
 from .views import (
-  contact_page,
+  ContactUsView,
   )
 
 urlpatterns = [
-  url(r'^$', contact_page, name='home'),
+  url(r'^$', ContactUsView.as_view(), name='home'),
 ]
