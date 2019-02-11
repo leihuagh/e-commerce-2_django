@@ -2,12 +2,12 @@ from django.conf.urls import url
 
 from .views import (
   PaymentMethodView,
-  payment_method_create_view,
+  PaymentMethodCreateView,
   billing_home
   )
 
 urlpatterns = [
   url(r'^$', billing_home, name='home'),
   url(r'^payment-method/$', PaymentMethodView.as_view(), name='payment_method'),
-  url(r'^payment-method/create/$', payment_method_create_view, name='create'),
+  url(r'^payment-method/create/$', PaymentMethodCreateView.as_view(), name='create'),
 ]

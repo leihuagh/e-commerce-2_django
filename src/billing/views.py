@@ -53,20 +53,38 @@ class PaymentMethodView(View):
 #   return render(request, 'billing/payment-method.html', context)
 
 
-def payment_method_create_view(request):
-  if request.method == 'POST' and request.is_ajax():
-    billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
-    if not billing_profile:
-      return HttpResponse({"message": "can not find this user"}, status_code=401)
+class PaymentMethodCreateView(View):
+
+  def post(self, request):
+    if request.method == 'POST' and request.is_ajax():
+      billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
+      if not billing_profile:
+        return HttpResponse({"message": "can not find this user"}, status=401)
+      
+      token = request.POST.get('token')
+      if token is not None:
+        # customer = stripe.Customer.retrieve(billing_profile.customer_id)
+        # card_response = customer.sources.create(source=token)
+        # new_card_obj = Card.objects.add_new(billing_profile, card_response)
+        new_card_obj = Card.objects.add_new(billing_profile, token)
+      return JsonResponse({"message": "Success! Your cart was added successfully!"})
+    return HttpResponse("error", status=401)
+
+
+# def payment_method_create_view(request):
+#   if request.method == 'POST' and request.is_ajax():
+#     billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
+#     if not billing_profile:
+#       return HttpResponse({"message": "can not find this user"}, status_code=401)
     
-    token = request.POST.get('token')
-    if token is not None:
-      # customer = stripe.Customer.retrieve(billing_profile.customer_id)
-      # card_response = customer.sources.create(source=token)
-      # new_card_obj = Card.objects.add_new(billing_profile, card_response)
-      new_card_obj = Card.objects.add_new(billing_profile, token)
-    return JsonResponse({"message": "Success! Your cart was added successfully!"})
-  return HttpResponse("error", status=401)
+#     token = request.POST.get('token')
+#     if token is not None:
+#       # customer = stripe.Customer.retrieve(billing_profile.customer_id)
+#       # card_response = customer.sources.create(source=token)
+#       # new_card_obj = Card.objects.add_new(billing_profile, card_response)
+#       new_card_obj = Card.objects.add_new(billing_profile, token)
+#     return JsonResponse({"message": "Success! Your cart was added successfully!"})
+#   return HttpResponse("error", status=401)
 
 
 def billing_home(request):
