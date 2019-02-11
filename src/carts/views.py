@@ -22,12 +22,15 @@ stripe.api_key = STRIPE_SECRET_KEY
 
 # Create your views here.
 
-def cart_home(request):
-  cart_obj, new_obj = Cart.objects.new_or_get(request)
-  context = {
-    'cart' : cart_obj
-  }
-  return render(request, 'carts/home.html', context)
+
+class CartHomeView(TemplateView):
+  template_name = 'carts/home.html'
+
+  def get_context_data(self, **kwargs):
+    context = super(CartHomeView, self).get_context_data(**kwargs)
+    cart_obj, new_obj = Cart.objects.new_or_get(self.request)
+    context['cart'] = cart_obj
+    return context
 
 
 def cart_update(request):
