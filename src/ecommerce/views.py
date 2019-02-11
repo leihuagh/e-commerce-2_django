@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from django.views.generic import TemplateView
+
 
 def home_page(request):
   context = {
@@ -11,9 +13,11 @@ def home_page(request):
   return render(request, "home_page.html", context)
 
 
-def about_page(request):
-  context = {
-    "title": "About page",
-    "content": "Welcome to about page"
-  }
-  return render(request, "home_page.html", context)
+class AboutView(TemplateView):
+  template_name = "home_page.html"
+
+  def get_context_data(self, **kwargs):
+    context = super(AboutView, self).get_context_data(**kwargs)
+    context['title'] = 'About page'
+    context['content'] = "Welcome to about page"
+    return context
