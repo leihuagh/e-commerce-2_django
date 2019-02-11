@@ -16,6 +16,7 @@
           <th>Status</th>
           <th>Total</th>
           <th>Download As PDF</th>
+          <th>Copy Order Link</th>
         </thead>
 
         <tbody>
@@ -28,6 +29,9 @@
               <td>{{ object.total }}</td>
               <td>
                 <a href="{{ object.get_absolute_pdf_url }}" class="btn btn-outline-success">Download PDF</a>
+              </td>
+              <td>
+                {% include 'base/copy-link.html' with product=object class="btn-outline-info" %}
               </td>
             </tr>
           {% empty %}

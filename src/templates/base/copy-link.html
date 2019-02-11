@@ -1,0 +1,8 @@
+<button class="btn {% if class %}{{ class }}{% else %}btn-info{% endif %} my-2 copy-url" onclick="copy('{{ request.META.HTTP_HOST }}{{ product.get_absolute_url }}')">
+  Copy 
+  {% if product.title %}
+    {{ product.title }} link 
+  {% else %} 
+    Order {{ product.order_id }} link 
+  {% endif %}
+</button>

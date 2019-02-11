@@ -9,6 +9,7 @@
       <p class="lead">Published: {{ object.timestamp | timesince}} ago.</p>
       <a href="{{ object.get_absolute_pdf_url }}" class="btn btn-outline-success">Download PDF</a>
       <br>
+      {% include 'base/copy-link.html' with product=object class="btn-outline-info" %}
       <br>
       <p class="lead">{{ object.price }} &#36;</p>
       {% if object.image %}

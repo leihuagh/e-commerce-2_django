@@ -7,6 +7,8 @@
       <h1>Order {{ object.order_id }}</h1>
       <br />
       <a href="{{ object.get_absolute_pdf_url }}" class="btn btn-outline-success">Download As PDF</a>
+      <br>
+      {% include 'base/copy-link.html' with product=object class="btn-outline-info" %}
       <hr />
     </div>
   </div>
