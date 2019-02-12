@@ -31,7 +31,6 @@ $(document).ready(() => {
       success: function(data) {
         // thisForm[0].reset();
         contactForm[0].reset();
-        console.log(data);
         $.alert({
           title: "Success!",
           content: data.message,
