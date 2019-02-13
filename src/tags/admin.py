@@ -1,12 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
-
 from .models import Tag
 
 
 class TagAdmin(admin.ModelAdmin):
-
   list_display  = ['id', '__str__', 'slug', 'active', 'timestamp']
   list_display_links = ['__str__']
   list_filter = ['title', 'active']
