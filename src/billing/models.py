@@ -1,16 +1,14 @@
+from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save, pre_save
-from django.core.urlresolvers import reverse
-
-from django.conf import settings
+import stripe
 
 from accounts.models import GuestEmail
 
-# Create your models here.
-import stripe
+
 STRIPE_SECRET_KEY = getattr(settings, 'STRIPE_SECRET_KEY')
 stripe.api_key = STRIPE_SECRET_KEY
-
 User = settings.AUTH_USER_MODEL
 
 
@@ -28,6 +26,7 @@ class BillingProfileManager(models.Manager):
     else:
       pass
     return obj, created
+
 
 class BillingProfile(models.Model):
   user = models.OneToOneField(User, null=True, blank=True)
@@ -86,11 +85,6 @@ def billing_profile_created_receiver(sender, instance, *args, **kwargs):
 pre_save.connect(billing_profile_created_receiver, sender=BillingProfile)
 
 
-
-
-
-
-
 class CardManager(models.Manager):
   def all(self, *args, **kwargs):
     return self.get_queryset().filter(active=True)
@@ -113,7 +107,6 @@ class CardManager(models.Manager):
     return None
 
 
-
 class Card(models.Model):
   billing_profile = models.ForeignKey(BillingProfile)
   stripe_id = models.CharField(max_length=120)
@@ -133,6 +126,7 @@ class Card(models.Model):
 
   objects = CardManager()
 
+
 def new_card_post_save_receiver(sender, instance, created, *args, **kwargs):
   if instance.default:
     billing_profile = instance.billing_profile
@@ -142,13 +136,11 @@ def new_card_post_save_receiver(sender, instance, created, *args, **kwargs):
 post_save.connect(new_card_post_save_receiver, sender=Card)
 
 
-
-
 class ChargeManager(models.Manager):
   def do(self, billing_profile, order_obj, card=None):
     card_obj = card
     if card_obj is None:
-      cards = billing_profile.card_set.filter(default=True) # card_obj.billing_profile
+      cards = billing_profile.card_set.filter(default=True)
       if cards.exists():
         card_obj = cards.first()
     if card_obj is None:
