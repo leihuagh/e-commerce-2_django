@@ -1,13 +1,13 @@
-from django.db import models
-
-from django.db.models.signals import pre_save, post_save, m2m_changed
 from django.conf import settings
-from products.models import Product
+from django.db import models
+from django.db.models.signals import pre_save, post_save, m2m_changed
 from decimal import Decimal
 
-# Create your models here.
+from products.models import Product
+
 
 User = settings.AUTH_USER_MODEL
+
 
 class CartManager(models.Manager):
   def new_or_get(self, request):
@@ -55,7 +55,6 @@ class Cart(models.Model):
     return True
 
 
-
 def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
   if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
     products = instance.products.all()
@@ -78,5 +77,3 @@ def pre_save_cart_receiver(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(pre_save_cart_receiver, sender=Cart)
-
-
