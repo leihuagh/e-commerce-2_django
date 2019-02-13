@@ -4,7 +4,10 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
-from .models import EmailActivation, GuestEmail
+from .models import (
+  EmailActivation,
+  GuestEmail
+)
 
 User = get_user_model()
 
@@ -81,15 +84,12 @@ class RegisterForm(forms.ModelForm):
     user = super(RegisterForm, self).save(commit=False)
     user.set_password(self.cleaned_data["password1"])
     user.is_active = False
-    # obj = EmailActivation.objects.create(user=user)
-    # obj.send_activation_email()
     if commit:
       user.save()
     return user
 
 
 class GuestForm(forms.ModelForm):
-  # email = forms.EmailField()
 
   class Meta:
     model = GuestEmail

@@ -3,21 +3,12 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-
 from .models import GuestEmail, EmailActivation
-
 from .forms import UserAdminCreationForm, UserAdminChangeForm
 
-# Register your models here.
 
 User = get_user_model()
 
-
-# class UserAdmin(admin.ModelAdmin):
-#   search_fields = ['email']
-
-#   class Meta:
-#     model = User
 
 class UserAdmin(BaseUserAdmin):
   form = UserAdminChangeForm
@@ -47,7 +38,6 @@ admin.site.unregister(Group)
 
 
 class EmailActivationAdmin(admin.ModelAdmin):
-
   list_display = ['id', 'email', 'key', 'activated', 'forced_expired', 'expires', 'timestamp', 'updated']
   list_display_links = ['email']
   list_filter = ['activated', 'forced_expired', 'expires']
@@ -62,7 +52,6 @@ admin.site.register(EmailActivation, EmailActivationAdmin)
 
 
 class GuestEmailAdmin(admin.ModelAdmin):
-
   list_display = ['id', '__str__', 'active', 'timestamp', 'updated']
   list_display_links = ['__str__']
   list_filter = ['active']

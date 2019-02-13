@@ -16,9 +16,8 @@ from datetime import timedelta
 from ecommerce.utils import unique_key_generator
 
 
-# Create your models here.
-
 DEFAULT_ACTIVATION_DAYS = getattr(settings, 'DEFAULT_ACTIVATION_DAYS', 7)
+
 
 class UserManager(BaseUserManager):
   def create_user(self, email, full_name, password=None, is_active=True, is_staff=False, is_admin=False):
@@ -42,10 +41,10 @@ class UserManager(BaseUserManager):
 
   def create_staffuser(self, email, full_name, password):
     user = self.create_user(
-        email,
-        full_name,
-        password=password,
-        is_staff=True
+      email,
+      full_name,
+      password=password,
+      is_staff=True
     )
     user.staff = True
     user.save(using=self._db)
@@ -53,11 +52,11 @@ class UserManager(BaseUserManager):
 
   def create_superuser(self, email, full_name, password):
     user = self.create_user(
-        email,
-        full_name,
-        password=password,
-        is_staff=True,
-        is_admin=True
+      email,
+      full_name,
+      password=password,
+      is_staff=True,
+      is_admin=True
     )
     user.staff = True
     user.admin = True
@@ -65,12 +64,9 @@ class UserManager(BaseUserManager):
     return user
 
 
-
-
 class User(AbstractBaseUser):
   email = models.EmailField(max_length=255, unique=True)
   full_name = models.CharField(max_length=255, blank=True, null=True)
-  # active = models.BooleanField(default=True)
   is_active = models.BooleanField(default=True)
   staff = models.BooleanField(default=False)
   admin = models.BooleanField(default=False)
@@ -109,11 +105,6 @@ class User(AbstractBaseUser):
   def is_admin(self):
     return self.admin
 
-  # @property
-  # def is_active(self):
-  #   return self.active
-
-
 
 class EmailActivationQuerySet(models.query.QuerySet):
   def confirmable(self):
@@ -132,8 +123,8 @@ class EmailActivationManager(models.Manager):
 
   def email_exists(self, email):
     return self.get_queryset().filter(
-        Q(email=email) |
-        Q(user__email=email)
+      Q(email=email) |
+      Q(user__email=email)
     ).filter(activated=False)
 
 
@@ -172,7 +163,7 @@ class EmailActivation(models.Model):
     self.key = None
     self.save()
     if self.key is not None:
-        return True
+      return True
     return False
 
   def send_activation(self):
@@ -202,8 +193,6 @@ class EmailActivation(models.Model):
     return False
 
 
-
-
 def pre_save_email_activation(sender, instance, *args, **kwargs):
   if not instance.activated and not instance.forced_expired:
     if not instance.key:
@@ -218,6 +207,7 @@ def post_save_user_create_reciever(sender, instance, created, *args, **kwargs):
     obj.send_activation()
 
 post_save.connect(post_save_user_create_reciever, sender=User)
+
 
 class GuestEmail(models.Model):
   email = models.EmailField()

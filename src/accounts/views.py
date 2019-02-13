@@ -1,29 +1,39 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import CreateView, FormView, DetailView, UpdateView, View
+from django.views.generic.edit import FormMixin
+from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.utils.http import is_safe_url
-from django.urls import reverse_lazy
-from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
-from django.views.generic.edit import FormMixin
+from django.urls import reverse_lazy
 
-from .forms import LoginForm, RegisterForm, GuestForm, ReactivateEmailForm, UserDetailChangeForm
-from .models import GuestEmail, EmailActivation
+from ecommerce.mixins import (
+  NextUrlMixin,
+  RequestFormAttachMixin
+)
+from .forms import (
+  LoginForm,
+  RegisterForm,
+  GuestForm,
+  ReactivateEmailForm,
+  UserDetailChangeForm
+)
+from .models import (
+  GuestEmail,
+  EmailActivation
+)
 from .signals import user_logged_in
-from ecommerce.mixins import NextUrlMixin, RequestFormAttachMixin
-
-# Create your views here.
 
 
 class RegisterView(CreateView):
   form_class = RegisterForm
   template_name = 'accounts/register.html'
   success_url = reverse_lazy('accounts:login')
+
 
 class LoginView(NextUrlMixin, RequestFormAttachMixin, FormView):
   form_class = LoginForm
@@ -52,10 +62,6 @@ class AccountHomeView(LoginRequiredMixin, DetailView):
 
   def get_object(self):
     return self.request.user
-
-  # @method_decorator(login_required)
-  # def dispatch(self, *args, **kwargs):
-  #   return super(AccountHomeView, self).dispatch(self, *args, **kwargs)
 
 
 class AccountEmailActivateView(FormMixin, View):
@@ -122,14 +128,3 @@ class UserDetailUpdateView(LoginRequiredMixin, UpdateView):
 
   def get_success_url(self):
     return reverse("accounts:home")
-
-
-# @login_required
-# def account_home_view(request):
-#   return render(request, "accounts/home.html", {})
-
-
-# class LoginRequiredMixin(object):
-#   @method_decorator(login_required)
-#   def dispatch(self, request, *args, **kwargs):
-#     return super(LoginRequiredMixin, self).dispatch(self, request, *args, **kwargs)
