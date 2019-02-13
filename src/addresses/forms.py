@@ -10,7 +10,6 @@ class AddressForm(forms.ModelForm):
     fields = [
       'nickname',
       'name',
-      # 'billing_profile',
       'address_type',
       'address_line_1',
       'address_line_2',
@@ -28,8 +27,6 @@ class AddressCheckoutForm(forms.ModelForm):
     fields = [
       'nickname',
       'name',
-      # 'billing_profile',
-      # 'address_type',
       'address_line_1',
       'address_line_2',
       'city',

@@ -6,7 +6,7 @@ from .views import (
   AddressListView,
   AddressCreateView,
   AddressUpdateView,
-  )
+)
 
 urlpatterns = [
   url(r'^checkout/address/create/$', CheckoutAddressCreateView.as_view(), name='create'),
@@ -15,4 +15,3 @@ urlpatterns = [
   url(r'^create/$', AddressCreateView.as_view(), name='address-create'),
   url(r'^update/(?P<pk>\d+)/$', AddressUpdateView.as_view(), name='address-update'),
 ]
-
