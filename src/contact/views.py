@@ -1,26 +1,21 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
+from django.views.generic import View
+from django.views.generic.edit import FormMixin
 
 from .forms import ContactUsForm
 from .models import Contact
-from django.views.generic.edit import FormMixin
-from django.views.generic import View
-
-# Create your views here.
 
 
-# class ContactUsView(FormMixin, View):
 class ContactUsView(View):
   form_class = ContactUsForm
   template_name = 'contact/home.html'
 
   def get(self, request, *args, **kwargs):
-    # context = {'form': self.get_form(), 'content': "Welcome to contact us page"}
     context = {'form': self.form_class(), 'content': "Welcome to contact us page"}
     return render(request, self.template_name, context)
 
   def post(self, request, *args, **kwargs):
-    # form = self.get_form()
     form = self.form_class(request.POST)
     if form.is_valid():
       return self.form_valid(form)
