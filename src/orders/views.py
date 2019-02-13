@@ -1,13 +1,15 @@
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404, JsonResponse, HttpResponse
 from django.views.generic import ListView, DetailView, View
 from django.shortcuts import render, redirect
-from django.conf import settings
-
-from billing.models import BillingProfile
-from .models import Order, ProductPurchase
 
 from ecommerce.utils import render_to_pdf
+from billing.models import BillingProfile
+from .models import (
+  Order,
+  ProductPurchase
+)
 
 
 class OrderListView(LoginRequiredMixin, ListView):
@@ -35,7 +37,6 @@ class LibraryView(LoginRequiredMixin, ListView):
 class VerifyOwnership(View):
   def get(self, request, *args, **kwargs):
     if request.is_ajax():
-      # data = request.GET 
       product_id = request.GET.get('product_id', None)
       if product_id is not None:
         product_id = int(product_id)
@@ -65,7 +66,6 @@ class OrderDetailGeneratePDFView(View):
         'status': order.get_status,
       }
       pdf = render_to_pdf('pdf/order-detail.html', context)
-      # return HttpResponse(pdf, content_type='application/pdf')
       if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
         filename = "Order-{}-detail.pdf".format(order.order_id)

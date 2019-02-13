@@ -6,7 +6,8 @@ from .views import (
   LibraryView,
   VerifyOwnership,
   OrderDetailGeneratePDFView
-  )
+)
+
 
 urlpatterns = [
   url(r'^$', OrderListView.as_view(), name='list'),
@@ -15,4 +16,3 @@ urlpatterns = [
   url(r'^(?P<order_id>[0-9A-Za-z]+)/download/$', OrderDetailGeneratePDFView.as_view(), name='detail-download'),
   url(r'^endpoint/verify/ownership/$', VerifyOwnership.as_view(), name='verify-ownership'),
 ]
-

@@ -23,8 +23,6 @@
           {% if not forloop.last %}, {% endif %}
         {% endfor %}
       </p>
-      <!-- <p>Shipping Address: {{ object.shipping_address.get_address }}</p> -->
-      <!-- <p>Billing Address: {{ object.shipping_address.get_address }}</p> -->
       <p>Shipping Address: {{ object.shipping_address_final }}</p>
       <p>Billing Address: {{ object.billing_address_final }}</p>
       <p>Subtotal: {{ object.cart.total }}</p>
