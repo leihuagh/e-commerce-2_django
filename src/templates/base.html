@@ -3,28 +3,28 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Base Template</title>
-  <link rel="icon" href="{% static 'icon/i.ico' %}">
-  {% include 'base/css.html' %}
-  {% block base_head %}{% endblock %}
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Base Template</title>
+    <link rel="icon" href="{% static 'icon/i.ico' %}">
+    {% include 'base/css.html' %}
+    {% block base_head %}
+    {% endblock %}
+  </head>
 
-<body>
-  {% include 'base/navbar.html' with brand_name='E-Commerce' %}
-  
-  <div class="container">
-    {% include 'base/messages.html' %}
-    {% block content %}{% endblock %}
-  </div>
+  <body>
+    {% include 'base/navbar.html' with brand_name='E-Commerce' %}
+    
+    <div class="container">
+      {% include 'base/messages.html' %}
+      {% block content %}{% endblock %}
+    </div>
 
-  
-  {% include 'base/js.html' %}
+    {% include 'base/js.html' %}
 
-  {% block javascript %}
-  {% endblock %}
-</body>
+    {% block javascript %}
+    {% endblock %}
+  </body>
 
 </html>

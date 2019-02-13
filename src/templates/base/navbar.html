@@ -52,9 +52,8 @@
             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
           </a>
         </li>
+
         {% if request.user.is_authenticated %}
-          <!-- <li class="nav-item {% if request.path == logout_url %} active {% endif %}">
-          </li> -->
           
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -87,16 +86,6 @@
           </li>
         {% endif %}
 
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown link
-          </a>
-          <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li> -->
       </ul>
       {% include 'search/snippets/search-form.html' %}
     </div>

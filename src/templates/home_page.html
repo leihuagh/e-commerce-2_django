@@ -2,17 +2,16 @@
 
 {% load static %}
 
-
 {% block base_head %}
   <link rel="stylesheet" href="{% static 'css/style.css'%}">
 {% endblock %}
-
 
 {% block content %}
 
   <div class="text-center">
     <h1>{{ title }}</h1>
   </div>
+
   <div class="row">
     <div class="col">
       <img src="{% static 'img/beach.jpg'%}" class="img-fluid" alt="beach pic">
@@ -23,11 +22,13 @@
   </div>
 
   {% if request.user.is_authenticated %}
-  <div class="row">
-    <div class="col">
-      {{ logged_content }}
+
+    <div class="row">
+      <div class="col">
+        {{ logged_content }}
+      </div>
     </div>
-  </div>
+
   {% endif %}
 
 {% endblock %}
