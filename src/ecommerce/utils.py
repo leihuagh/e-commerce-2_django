@@ -1,12 +1,11 @@
+from django.http import HttpResponse
+from django.utils.text import slugify
+from django.template.loader import get_template
+from io import BytesIO
+from xhtml2pdf import pisa
 import random
 import string
 import os
-from django.utils.text import slugify
-
-from io import BytesIO
-from django.http import HttpResponse
-from django.template.loader import get_template
-from xhtml2pdf import pisa
 
 
 def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
@@ -36,7 +35,6 @@ def unique_order_id_generator(instance):
   Klass = instance.__class__
   qs_exists = Klass.objects.filter(order_id=order_new_id).exists()
   if qs_exists:
-    
     return unique_order_id_generator(instance)
   return order_new_id
 
@@ -44,7 +42,6 @@ def unique_order_id_generator(instance):
 def unique_key_generator(instance):
   size = random.randint(30, 45)
   key = random_string_generator(size=size)
-
   Klass = instance.__class__
   qs_exists = Klass.objects.filter(key=key).exists()
   if qs_exists:
@@ -61,10 +58,6 @@ def render_to_pdf(template_src, context_dict={}):
   html  = template.render(context_dict)
   result = BytesIO()
   pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
-  # response = HttpResponse(content_type='application/pdf') 
-  # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-  # pdf = pisa.CreatePDF(BytesIO(html.encode("UTF-8")), dest=response)
   if not pdf.err:
     return HttpResponse(result.getvalue(), content_type='application/pdf')
-    # return response
   return None
