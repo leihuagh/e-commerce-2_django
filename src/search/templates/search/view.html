@@ -1,41 +1,44 @@
-
 {% extends 'base.html' %} 
 
 {% block content %}
 
+  <div class="row mb-3">
 
-<div class="row mb-3">
-  {% if query %}
-    <div class="col-12">
-      Results for <b>{{ query }}</b>
-      <hr>
-    </div>
-  {% else %}
-    <div class="col-12 col-md-6 mx-auto py-5">
-      {% include 'search/snippets/search-form.html' %}
-    </div>
-    <div class="col-12">
-      <hr>
-    </div>
-  {% endif %}
-</div>
+    {% if query %}
 
+      <div class="col-12">
+        Results for <b>{{ query }}</b>
+        <hr>
+      </div>
+      
+    {% else %}
 
-<div class="row">
+      <div class="col-12 col-md-6 mx-auto py-5">
+        {% include 'search/snippets/search-form.html' %}
+      </div>
+      <div class="col-12">
+        <hr>
+      </div>
 
-  {% for obj in object_list %}
+    {% endif %}
 
-    <div class="col">
-      {% include 'products/snippets/card.html' with instance=obj %}
+  </div>
 
-      {% if forloop.counter|divisibleby:3 %}
-        </div></div><div class="row"><div class="col-12"><hr/></div></div>
-      {% else %}
-        </div>
-      {% endif %}
+  <div class="row">
 
-  {% endfor %}
-  
-</div>
+    {% for obj in object_list %}
+
+      <div class="col">
+        {% include 'products/snippets/card.html' with instance=obj %}
+
+        {% if forloop.counter|divisibleby:3 %}
+          </div></div><div class="row"><div class="col-12"><hr/></div></div>
+        {% else %}
+          </div>
+        {% endif %}
+
+    {% endfor %}
+    
+  </div>
 
 {% endblock %}
