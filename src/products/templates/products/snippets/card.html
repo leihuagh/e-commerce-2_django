@@ -1,20 +1,22 @@
-
-
 <div class="card" style="width: 18rem;">
+
   {% if instance.image %}
+
     <a href="{{ instance.get_absolute_url }}">
       <img class="card-img-top" src="{{instance.image.url}}" title="{{ instance.title }} product image" alt="{{ instance.title }}">
     </a>
+
   {% endif %}
+
   <div class="card-body">
     <h5 class="card-title">{{ instance.title }}</h5>
     <p class="card-text">{{ instance.description | linebreaks | truncatewords:12 }}</p>
     <div class='text-center'>
       <a href="{{ instance.get_absolute_url }}" class="btn btn-primary my-2">View {{ instance.title }}</a>
-
+      
       {% include 'base/copy-link.html' with product=instance class="" %}
       {% include 'products/snippets/update-cart.html' with product=instance cart=cart %}
+
     </div>
-    <!-- <a href="{% url 'products:detail' slug=instance.slug %}" class="btn btn-warning">URL {{ instance.title }}</a> -->
   </div>
 </div>

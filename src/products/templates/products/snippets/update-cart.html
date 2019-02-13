@@ -3,14 +3,20 @@
   <input type="hidden" name="product_id" value="{{ product.id }}" {% if  product.is_digital %}data-is-digital='true'{% endif%}>
   
   <span class="submit-span">
+    
     {% if product in cart.products.all %}
-    <div class='btn-group'>
-      <a class='btn btn-link' href='{% url "cart:home" %}'>In cart</a> 
-      <button type="submit" class="btn btn-link">Remove</button>
-    </div>
+
+      <div class='btn-group'>
+        <a class='btn btn-link' href='{% url "cart:home" %}'>In cart</a> 
+        <button type="submit" class="btn btn-link">Remove</button>
+      </div>
+
     {% else %}
+
       <button type="submit" class="btn btn-success">Add to cart</button>
+
     {% endif %}
+
   </span>
 
 </form>

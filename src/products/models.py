@@ -1,15 +1,17 @@
-import random
-import os
-from django.db import models
-from django.urls import reverse
-from django.db.models import Q
-from django.db.models.signals import pre_save, post_save
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.db import models
+from django.db.models import Q
+from django.db.models.signals import pre_save, post_save
+from django.urls import reverse
+import random
+import os
 
-from ecommerce.utils import unique_slug_generator, get_filename
+from ecommerce.utils import (
+  unique_slug_generator,
+  get_filename
+)
 
-# Create your models here.
 
 def get_filename_ext(filepath):
   base_name = os.path.basename(filepath)
@@ -48,19 +50,18 @@ class ProductManager(models.Manager):
   def all(self):
     return self.get_queryset().active()
   
-  def featured(self): # Product.objects.featured()
+  def featured(self):
     return self.get_queryset().featured()
 
   def get_by_id(self, id):
-    qs = self.get_queryset().filter(id=id) # self.get_queryset() == Product.objects
+    qs = self.get_queryset().filter(id=id)
     if qs.count() == 1:
       return qs.first()
     return None
 
   def search(self, query):
-    # lookups = Q(title__icontains=query) | Q(description__icontains=query)
-    # return self.get_queryset().active().filter(lookups).distinct()
     return self.get_queryset().active().search(query)
+
 
 class Product(models.Model):
   title = models.CharField(max_length=120)
@@ -73,11 +74,9 @@ class Product(models.Model):
   is_digital = models.BooleanField(default=False)
   timestamp = models.DateTimeField(auto_now_add=True)
 
-
   objects = ProductManager()
 
   def get_absolute_url(self):
-    # return '/products/{slug}/'.format(slug=self.slug)
     return reverse('products:detail', kwargs={'slug': self.slug})
   
   def get_absolute_pdf_url(self):
@@ -85,9 +84,6 @@ class Product(models.Model):
 
   def __str__(self):
     return self.title
-  
-  # def __unicode__(self): # in python 2
-  #   return self.title
 
   @property
   def name(self):
@@ -104,7 +100,6 @@ def product_pre_save_receiver(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(product_pre_save_receiver, sender=Product)
-
 
 
 def upload_product_file_loc(instance, filename):
@@ -126,8 +121,8 @@ def upload_product_file_loc(instance, filename):
 class ProductFile(models.Model):
   product = models.ForeignKey(Product)
   file = models.FileField(
-          upload_to=upload_product_file_loc, 
-          storage=FileSystemStorage(location=settings.PROTECTED_ROOT)
+    upload_to=upload_product_file_loc, 
+    storage=FileSystemStorage(location=settings.PROTECTED_ROOT)
   )
   free = models.BooleanField(default=False)
   user_required = models.BooleanField(default=False)
