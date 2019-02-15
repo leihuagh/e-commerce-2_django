@@ -76,6 +76,9 @@ class Product(models.Model):
 
   objects = ProductManager()
 
+  class Meta:
+    ordering = ['-id']
+
   def get_absolute_url(self):
     return reverse('products:detail', kwargs={'slug': self.slug})
   

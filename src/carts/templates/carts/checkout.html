@@ -88,7 +88,7 @@
           <p>Order Total: {{ object.total }}</p>
           <form action="" method="POST" class="form">
             {% csrf_token %}
-            <button type="submit" class="btn btn-success">Checkout</button>
+            <button type="submit" class="btn btn-primary btn-block">Checkout</button>
           </form>
 
         {% endif %}
