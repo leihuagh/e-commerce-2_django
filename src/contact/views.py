@@ -12,7 +12,10 @@ class ContactUsView(View):
   template_name = 'contact/home.html'
 
   def get(self, request, *args, **kwargs):
-    context = {'form': self.form_class(), 'content': "Welcome to contact us page"}
+    form = self.form_class()
+    if request.user.is_authenticated():
+      form = self.form_class(initial={'fullname': request.user.full_name, 'email': request.user.email})
+    context = {'form': form, 'content': "Welcome to contact us page"}
     return render(request, self.template_name, context)
 
   def post(self, request, *args, **kwargs):
@@ -23,11 +26,7 @@ class ContactUsView(View):
       return self.form_invalid(form)
   
   def form_valid(self, form):
-    data = form.cleaned_data
-    fullname = data.get('fullname')
-    email = data.get('email')
-    content = data.get('content')
-    Contact.objects.create(fullname=fullname, email=email, content=content)
+    form.save()
     return JsonResponse({"message": "Thank you for your submission"})
 
   def form_invalid(self, form):

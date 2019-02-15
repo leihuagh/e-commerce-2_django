@@ -12,8 +12,8 @@
           <p>{{ content }}</p>
           <form action="{% url 'contact:home' %}" method="POST" class="contact-form">
             {% csrf_token %} 
-            {{form.as_p}}
-            <button type="submit" class="btn btn-primary">Send</button>
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary btn-block">Send</button>
           </form>
         </div>
     </div>
