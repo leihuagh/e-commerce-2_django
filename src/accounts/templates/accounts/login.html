@@ -3,9 +3,20 @@
 {% block content %}
 
   <h1>Login</h1>
+  <br>
   <form action="" method="POST">
-    {% csrf_token %} {{form}}
-    <button type="submit" class="btn btn-default">Send</button>
+    {% csrf_token %} 
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary btn-block">Login</button>
   </form>
+
+  <br>
+  <p>
+    Don't have an account?
+    <a href="{% url 'accounts:register' %}">Register</a>
+    <br>
+    OR
+    <a href="{% url 'password_reset' %}">Reset your password</a>
+  </p>
 
 {% endblock %}

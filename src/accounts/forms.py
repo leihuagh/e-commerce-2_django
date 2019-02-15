@@ -27,8 +27,23 @@ class ReactivateEmailForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-  email = forms.EmailField(label='Email')
-  password = forms.CharField(widget=forms.PasswordInput())
+  email = forms.EmailField(
+    label='Email',
+    widget=forms.EmailInput(
+      attrs={
+        "class": "form-control mb-4",
+        "placeholder": "Email"
+      }
+    )
+  )
+  password = forms.CharField(
+    widget=forms.PasswordInput(
+      attrs={
+        "class": "form-control mb-4",
+        "placeholder": "password"
+      }
+    )
+  )
 
   def __init__(self, request, *args, **kwargs):
     self.request = request
@@ -66,8 +81,42 @@ class LoginForm(forms.Form):
 
 
 class RegisterForm(forms.ModelForm):
-  password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-  password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+  email = forms.EmailField(
+    label='Email',
+    widget=forms.EmailInput(
+      attrs={
+        "class": "form-control mb-4",
+        "placeholder": "Email"
+      }
+    )
+  )
+  full_name = forms.CharField(
+    label='Full Name',
+    widget=forms.TextInput(
+      attrs={
+        "class": "form-control mb-4",
+        "placeholder": "Full Name"
+      }
+    )
+  )
+  password1 = forms.CharField(
+    label='Password',
+    widget=forms.PasswordInput(
+      attrs={
+        "class": "form-control mb-4",
+        "placeholder": "password"
+      }
+    )
+  )
+  password2 = forms.CharField(
+    label='Password confirmation',
+    widget=forms.PasswordInput(
+      attrs={
+        "class": "form-control mb-4",
+        "placeholder": "Password confirmation"
+      }
+    )
+  )
 
   class Meta:
     model = User
