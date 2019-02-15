@@ -67,6 +67,7 @@
 * Search products by price
 * Search products by tag title
 * Write tags for products -by admin only-
+* Auto fill contact email, full name if user logged in
 
 
 
