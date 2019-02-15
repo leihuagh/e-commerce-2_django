@@ -4,11 +4,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import RedirectView
 
-from .views import HomeView, AboutView
+from products.views import HomePageListView
+from .views import AboutView
 
 
 urlpatterns = [
-  url(r'^$', HomeView.as_view(), name='home'),
+  url(r'^$', HomePageListView.as_view(), name='home'),
   url(r'^about/$', AboutView.as_view(), name='about'),
   url(r'^settings/$', RedirectView.as_view(url='/account')),
   url(r'^accounts/$', RedirectView.as_view(url='/account')),

@@ -15,20 +15,12 @@
   <div class="row">
     <div class="col">
       <img src="{% static 'img/beach.jpg'%}" class="img-fluid" alt="beach pic">
+      <br>
+      <br>
       <p>
         {{ content }}
       </p>
     </div>
   </div>
-
-  {% if request.user.is_authenticated %}
-
-    <div class="row">
-      <div class="col">
-        {{ logged_content }}
-      </div>
-    </div>
-
-  {% endif %}
 
 {% endblock %}

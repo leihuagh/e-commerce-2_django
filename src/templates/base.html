@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Base Template</title>
+    <title>E-Commerce</title>
     <link rel="icon" href="{% static 'icon/i.ico' %}">
     {% include 'base/css.html' %}
     {% block base_head %}
@@ -18,6 +18,12 @@
     
     <div class="container">
       {% include 'base/messages.html' %}
+      <div class="text-center">
+        <h2>
+          Developed By : 
+          <a href="https:www.osamamohamed.com" target="_blank">OSAMA MOHAMED</a>
+        </h2>
+      </div>
       {% block content %}{% endblock %}
     </div>
 
